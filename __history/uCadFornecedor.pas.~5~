@@ -1,0 +1,74 @@
+unit uCadFornecedor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.ComCtrls, Vcl.ToolWin, Vcl.ActnList, Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnMan, Vcl.ImgList;
+
+type
+  TfrmCadFornecedor = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    MaskEdit1: TMaskEdit;
+    MaskEdit2: TMaskEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    MaskEdit3: TMaskEdit;
+    MaskEdit4: TMaskEdit;
+    btnPesquisar: TButton;
+    ComboBox1: TComboBox;
+    Label11: TLabel;
+    Edit6: TEdit;
+    ToolBar1: TToolBar;
+    btnNovo: TToolButton;
+    ToolButton2: TToolButton;
+    btnEditar: TToolButton;
+    ToolButton4: TToolButton;
+    btnSalvar: TToolButton;
+    ToolButton17: TToolButton;
+    btnExcluir: TToolButton;
+    ToolButton19: TToolButton;
+    btnCancelar: TToolButton;
+    ToolButton21: TToolButton;
+    btnSair: TToolButton;
+    ImageList2: TImageList;
+    ActionManager1: TActionManager;
+    novo: TAction;
+    editar: TAction;
+    salvar: TAction;
+    excluir: TAction;
+    cancelar: TAction;
+    sair: TAction;
+    vender: TAction;
+    pesquisar: TAction;
+    imprimir: TAction;
+    ImageList1: TImageList;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadFornecedor: TfrmCadFornecedor;
+
+implementation
+
+{$R *.dfm}
+
+end.

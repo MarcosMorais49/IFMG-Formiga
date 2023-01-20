@@ -1,0 +1,521 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.0.45-community-nt
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema padaria
+--
+
+CREATE DATABASE IF NOT EXISTS padaria;
+USE padaria;
+
+--
+-- Definition of table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+CREATE TABLE `cliente` (
+  `cliCodigo` int(10) unsigned NOT NULL auto_increment,
+  `cliNome` varchar(45) NOT NULL,
+  `cliEndereco` varchar(45) NOT NULL,
+  `cliBairro` varchar(45) NOT NULL,
+  `cliCidade` varchar(45) NOT NULL,
+  `cliCep` varchar(10) NOT NULL,
+  `cliEstado` varchar(2) NOT NULL,
+  `cliCpf` varchar(18) NOT NULL,
+  `cliRg` varchar(11) NOT NULL,
+  `cliEmail` varchar(45) default NULL,
+  `cliTelefone` varchar(13) NOT NULL,
+  `cliTipo` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`cliCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cliente`
+--
+
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` (`cliCodigo`,`cliNome`,`cliEndereco`,`cliBairro`,`cliCidade`,`cliCep`,`cliEstado`,`cliCpf`,`cliRg`,`cliEmail`,`cliTelefone`,`cliTipo`) VALUES 
+ (1,'Joaozinho','Rua b','Bela Vista','Brasilia','23.420-042','DF','123.412.223-94','2.398.480','joaozinho@hotmail.com','(31)2321-0043',0),
+ (2,'Marcos','Tenente Oscar Teixeira Lima, 88','Novo Horizonte','Formiga','35.570-000','MG','083.220.306-81','2.222.   ','marcosvmorais49@yahoo.com.br','(37)3323-3333',0),
+ (3,'Maria','Rua numero 1','Centro','Santos','45.677-444','SP','12 .332.123-56','14.553.32 ','werwerrewrwerwe@aasdad','(33)4504-3094',0);
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+
+
+--
+-- Definition of table `entrada`
+--
+
+DROP TABLE IF EXISTS `entrada`;
+CREATE TABLE `entrada` (
+  `entControle` int(10) unsigned NOT NULL auto_increment,
+  `Fornecedor_forCodigo` int(10) unsigned NOT NULL,
+  `entNumero` int(10) unsigned NOT NULL,
+  `entSerie` varchar(3) NOT NULL,
+  `entEmissao` date NOT NULL,
+  `entEntrada` date NOT NULL,
+  `entTotal` double(12,2) NOT NULL,
+  `entBaseIcms` double(12,2) default '0.00',
+  `entValorIcms` double(12,2) default '0.00',
+  `entBaseSt` double(12,2) default NULL,
+  `entValorSt` double(12,2) default NULL,
+  `entIpi` double(12,2) default NULL,
+  `entDesconto` double(12,2) default NULL,
+  `entDespesa` double(12,2) default NULL,
+  `entLiquido` double(12,2) NOT NULL,
+  PRIMARY KEY  USING BTREE (`entControle`),
+  KEY `NotaFiscal_FKIndex1` (`Fornecedor_forCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `entrada`
+--
+
+/*!40000 ALTER TABLE `entrada` DISABLE KEYS */;
+INSERT INTO `entrada` (`entControle`,`Fornecedor_forCodigo`,`entNumero`,`entSerie`,`entEmissao`,`entEntrada`,`entTotal`,`entBaseIcms`,`entValorIcms`,`entBaseSt`,`entValorSt`,`entIpi`,`entDesconto`,`entDespesa`,`entLiquido`) VALUES 
+ (40,1,1,'1','2012-12-12','2012-12-12',1222.75,0.00,0.00,0.00,0.00,0.00,0.00,0.00,1222.75),
+ (41,2,1,'1','2012-12-12','2012-12-12',99.90,0.00,0.00,0.00,0.00,0.00,0.00,0.00,99.90),
+ (42,3,1,'1','2012-12-12','2012-12-12',112.32,1.29,2.12,12.12,12.12,12.12,12.12,12.12,112.32),
+ (43,4,1,'1','2012-12-12','2012-12-12',1212.10,0.00,0.00,0.00,0.00,0.00,0.00,0.00,1212.12),
+ (44,4,2,'1','2012-12-11','2012-12-12',1212.12,0.00,0.00,0.00,0.00,0.00,0.00,0.00,1212.12),
+ (45,3,2,'1','2012-12-12','2012-12-12',111.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,1111.00);
+/*!40000 ALTER TABLE `entrada` ENABLE KEYS */;
+
+
+--
+-- Definition of table `entrada_matprima`
+--
+
+DROP TABLE IF EXISTS `entrada_matprima`;
+CREATE TABLE `entrada_matprima` (
+  `ent_mpControle` int(10) unsigned NOT NULL auto_increment,
+  `Entrada_entControle` int(10) unsigned NOT NULL,
+  `MatPrima_mpCodigo` int(10) unsigned NOT NULL,
+  `mp_nfQtde` double(12,2) NOT NULL,
+  PRIMARY KEY  USING BTREE (`ent_mpControle`),
+  KEY `NotaFiscal_has_MatPrima_FKIndex2` (`MatPrima_mpCodigo`),
+  KEY `NotaFiscal_has_MatPrima_FKIndex1` USING BTREE (`Entrada_entControle`),
+  CONSTRAINT `FK_entrada_matprima_1` FOREIGN KEY (`Entrada_entControle`) REFERENCES `entrada` (`entControle`)
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `entrada_matprima`
+--
+
+/*!40000 ALTER TABLE `entrada_matprima` DISABLE KEYS */;
+INSERT INTO `entrada_matprima` (`ent_mpControle`,`Entrada_entControle`,`MatPrima_mpCodigo`,`mp_nfQtde`) VALUES 
+ (72,40,14,80.00),
+ (73,40,13,80.00),
+ (74,40,11,80.00),
+ (75,41,13,50.00),
+ (76,41,14,50.00),
+ (77,41,7,50.00),
+ (82,42,4,50.00),
+ (83,42,8,50.00),
+ (84,42,9,50.00),
+ (94,45,1,1.00),
+ (95,45,13,1.00);
+/*!40000 ALTER TABLE `entrada_matprima` ENABLE KEYS */;
+
+
+--
+-- Definition of table `fornecedor`
+--
+
+DROP TABLE IF EXISTS `fornecedor`;
+CREATE TABLE `fornecedor` (
+  `forCodigo` int(10) unsigned NOT NULL auto_increment,
+  `forCnpj` varchar(18) NOT NULL,
+  `forNome` varchar(45) NOT NULL,
+  `forEndereco` varchar(45) NOT NULL,
+  `forBairro` varchar(45) NOT NULL,
+  `forCidade` varchar(45) NOT NULL,
+  `forEstado` varchar(2) NOT NULL,
+  `forTelefone` varchar(13) NOT NULL,
+  `forCep` varchar(10) NOT NULL,
+  `forInscEstadual` varchar(11) NOT NULL,
+  `forEmail` varchar(45) default NULL,
+  PRIMARY KEY  (`forCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fornecedor`
+--
+
+/*!40000 ALTER TABLE `fornecedor` DISABLE KEYS */;
+INSERT INTO `fornecedor` (`forCodigo`,`forCnpj`,`forNome`,`forEndereco`,`forBairro`,`forCidade`,`forEstado`,`forTelefone`,`forCep`,`forInscEstadual`,`forEmail`) VALUES 
+ (1,'23.213.442/4343-32','Sadia - Sa','rua adaadsadsd','PPPPPP','PPPPPPPPPP','MA','(99)9999-9999','99.999-999','984.743.222','PPPPPPPPP'),
+ (2,'11.111.111/1111-11','coca-cola','rua a, 23','centro','formiga','MG','(37)3351-3232','35.570-000','111.111.111','asdsdssadsdasdasdasdasdsdad'),
+ (3,'23.444.323/4555-55','Porto Alegre Distribuidora','rua 23','centenario','Porto Alegre','RS','(11)2231-0987','33.422-212','233.213.333','masdasdi@asdjaksbdaskdj'),
+ (4,'04.149.637/0004-48','Santa Amalia','Av Contorno, 1511','Centro','São Jose dos Campos','SP','(21)3232-3321','31.222-020','432.291.451','santaamalia@yahoo.com.br');
+/*!40000 ALTER TABLE `fornecedor` ENABLE KEYS */;
+
+
+--
+-- Definition of table `item_venda`
+--
+
+DROP TABLE IF EXISTS `item_venda`;
+CREATE TABLE `item_venda` (
+  `Produto_proCodigo` int(10) unsigned NOT NULL,
+  `Venda_venCodigo` int(10) unsigned NOT NULL,
+  `pro_venControle` int(10) unsigned NOT NULL auto_increment,
+  `venQtde` double(12,2) NOT NULL,
+  `venValorUnit` double(12,2) NOT NULL,
+  PRIMARY KEY  (`pro_venControle`),
+  KEY `Produto_has_Venda_FKIndex1` (`Produto_proCodigo`),
+  KEY `Produto_has_Venda_FKIndex2` (`Venda_venCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_venda`
+--
+
+/*!40000 ALTER TABLE `item_venda` DISABLE KEYS */;
+INSERT INTO `item_venda` (`Produto_proCodigo`,`Venda_venCodigo`,`pro_venControle`,`venQtde`,`venValorUnit`) VALUES 
+ (1,3,1,1.00,1.00),
+ (1,5,2,1.50,1.00),
+ (2,6,3,1.00,100.00),
+ (1,6,4,1.50,1.00),
+ (3,6,5,1.32,4.90),
+ (2,7,6,1.00,100.00),
+ (1,7,7,3.45,1.00),
+ (3,8,8,13.23,4.90);
+/*!40000 ALTER TABLE `item_venda` ENABLE KEYS */;
+
+
+--
+-- Definition of table `itens_producao`
+--
+
+DROP TABLE IF EXISTS `itens_producao`;
+CREATE TABLE `itens_producao` (
+  `itPdcCodigo` int(10) unsigned NOT NULL auto_increment,
+  `itPdc_mpCodigo` int(10) unsigned NOT NULL,
+  `itPdcQtdePrevista` double(12,2) NOT NULL,
+  `itPdcQtdeUsada` double(12,2) default NULL,
+  `itPdc_pdcCodigo` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`itPdcCodigo`),
+  KEY `FK_itens_producao_1` (`itPdc_pdcCodigo`),
+  CONSTRAINT `FK_itens_producao_1` FOREIGN KEY (`itPdc_pdcCodigo`) REFERENCES `producao` (`pdcCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `itens_producao`
+--
+
+/*!40000 ALTER TABLE `itens_producao` DISABLE KEYS */;
+INSERT INTO `itens_producao` (`itPdcCodigo`,`itPdc_mpCodigo`,`itPdcQtdePrevista`,`itPdcQtdeUsada`,`itPdc_pdcCodigo`) VALUES 
+ (13,1,3.00,3.00,18),
+ (14,2,1.00,1.00,18),
+ (15,3,0.50,0.50,18),
+ (16,7,0.50,0.50,18),
+ (17,1,3.00,NULL,19),
+ (18,2,1.00,NULL,19),
+ (19,3,0.50,NULL,19),
+ (20,7,0.50,NULL,19),
+ (21,1,4.20,1.00,20),
+ (22,2,1.40,1.00,20),
+ (23,3,0.70,1.00,20),
+ (24,7,0.70,1.00,20),
+ (25,1,0.60,0.60,21),
+ (26,2,0.20,0.20,21),
+ (27,3,0.10,0.10,21),
+ (28,7,0.10,0.10,21),
+ (41,10,0.20,1.00,25),
+ (42,9,0.60,1.00,25),
+ (43,8,0.80,1.00,25),
+ (50,10,0.30,NULL,28),
+ (51,9,0.90,NULL,28),
+ (52,8,1.20,NULL,28),
+ (53,1,1.20,NULL,29),
+ (54,2,0.40,NULL,29),
+ (55,3,0.20,NULL,29),
+ (56,7,0.20,NULL,29),
+ (57,10,0.20,NULL,30),
+ (58,9,0.60,NULL,30),
+ (59,8,0.80,NULL,30),
+ (60,1,0.60,NULL,31),
+ (61,2,0.20,NULL,31),
+ (62,3,0.10,NULL,31),
+ (63,7,0.10,NULL,31);
+/*!40000 ALTER TABLE `itens_producao` ENABLE KEYS */;
+
+
+--
+-- Definition of table `matprima`
+--
+
+DROP TABLE IF EXISTS `matprima`;
+CREATE TABLE `matprima` (
+  `mpCodigo` int(10) unsigned NOT NULL auto_increment,
+  `mpDescricao` varchar(45) NOT NULL,
+  `mpPCusto` double(12,2) NOT NULL,
+  `mpEstoque` double(12,2) default '0.00',
+  `mpEstMinimo` double(12,2) default '0.00',
+  `mp_undCodigo` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`mpCodigo`),
+  KEY `FK_matprima_und` (`mp_undCodigo`),
+  CONSTRAINT `FK_matprima_und` FOREIGN KEY (`mp_undCodigo`) REFERENCES `unidade` (`undCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `matprima`
+--
+
+/*!40000 ALTER TABLE `matprima` DISABLE KEYS */;
+INSERT INTO `matprima` (`mpCodigo`,`mpDescricao`,`mpPCusto`,`mpEstoque`,`mpEstMinimo`,`mp_undCodigo`) VALUES 
+ (1,'Queijo Ralado',1.00,10.00,1.00,1),
+ (2,'Farinha de trigo',2.00,10.00,1.00,1),
+ (3,'Fermento Po',5.00,10.00,2.00,1),
+ (4,'Creme de Leite KG',9.75,7.00,5.00,1),
+ (5,'eeeeeeeeeeee',4.00,0.00,0.00,1),
+ (7,'Polvilho azedo Amafil',1.00,10.00,1.00,1),
+ (8,'Leite Integral MinasLat LT',2.35,67.20,0.00,2),
+ (9,'Sal Moc Kg',2.90,67.90,0.00,1),
+ (10,'Ovos Iana DZ',1.85,69.30,0.00,9),
+ (11,'Chocolate Po Nestle KG',7.39,80.00,0.00,1),
+ (13,'Chocolate Granulado KG',8.99,29.00,15.00,1),
+ (14,'Leite Condensado KG',9.89,29.00,10.00,1);
+/*!40000 ALTER TABLE `matprima` ENABLE KEYS */;
+
+
+--
+-- Definition of table `matprima_receita`
+--
+
+DROP TABLE IF EXISTS `matprima_receita`;
+CREATE TABLE `matprima_receita` (
+  `MatPrima_mpCodigo` int(10) unsigned NOT NULL,
+  `Receita_recCodigo` int(10) unsigned NOT NULL,
+  `mp_recControle` int(10) unsigned NOT NULL auto_increment,
+  `mp_recQtde` double(12,2) NOT NULL,
+  PRIMARY KEY  (`mp_recControle`),
+  KEY `MatPrima_has_Receita_FKIndex1` (`MatPrima_mpCodigo`),
+  KEY `MatPrima_has_Receita_FKIndex2` (`Receita_recCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `matprima_receita`
+--
+
+/*!40000 ALTER TABLE `matprima_receita` DISABLE KEYS */;
+INSERT INTO `matprima_receita` (`MatPrima_mpCodigo`,`Receita_recCodigo`,`mp_recControle`,`mp_recQtde`) VALUES 
+ (1,4,7,0.60),
+ (2,4,8,0.20),
+ (3,4,9,0.10),
+ (7,4,10,0.10),
+ (10,5,11,0.10),
+ (9,5,12,0.30),
+ (8,5,13,0.40);
+/*!40000 ALTER TABLE `matprima_receita` ENABLE KEYS */;
+
+
+--
+-- Definition of table `producao`
+--
+
+DROP TABLE IF EXISTS `producao`;
+CREATE TABLE `producao` (
+  `pdcCodigo` int(10) unsigned NOT NULL auto_increment,
+  `pdc_codReceita` int(10) unsigned NOT NULL,
+  `pdcUsuario` varchar(45) default NULL,
+  `pdcData` date NOT NULL,
+  `pdcStatus` varchar(20) NOT NULL,
+  `pdcQtde` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`pdcCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `producao`
+--
+
+/*!40000 ALTER TABLE `producao` DISABLE KEYS */;
+INSERT INTO `producao` (`pdcCodigo`,`pdc_codReceita`,`pdcUsuario`,`pdcData`,`pdcStatus`,`pdcQtde`) VALUES 
+ (18,4,NULL,'2013-03-26','Atualizado',5),
+ (19,4,NULL,'2013-03-26','Incluido',5),
+ (20,4,NULL,'2013-03-26','Criticado',7),
+ (21,4,NULL,'2013-03-26','Atualizado',1),
+ (25,5,NULL,'2013-03-26','Criticado',2),
+ (28,5,NULL,'2013-03-27','Incluido',3),
+ (29,4,NULL,'2013-03-27','Incluido',2),
+ (30,5,NULL,'2013-03-27','Incluido',2),
+ (31,4,NULL,'2013-03-27','Incluido',1);
+/*!40000 ALTER TABLE `producao` ENABLE KEYS */;
+
+
+--
+-- Definition of table `produto`
+--
+
+DROP TABLE IF EXISTS `produto`;
+CREATE TABLE `produto` (
+  `proCodigo` int(10) unsigned NOT NULL auto_increment,
+  `proDescricao` varchar(45) NOT NULL,
+  `proPVenda` double(12,2) NOT NULL,
+  `proEstoque` double(12,2) default '0.00',
+  `recAssociada` tinyint(1) NOT NULL,
+  `proEstMinimo` double(12,2) default '0.00',
+  `pro_undCodigo` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`proCodigo`),
+  KEY `FK_produto_und` (`pro_undCodigo`),
+  CONSTRAINT `FK_produto_und` FOREIGN KEY (`pro_undCodigo`) REFERENCES `unidade` (`undCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `produto`
+--
+
+/*!40000 ALTER TABLE `produto` DISABLE KEYS */;
+INSERT INTO `produto` (`proCodigo`,`proDescricao`,`proPVenda`,`proEstoque`,`recAssociada`,`proEstMinimo`,`pro_undCodigo`) VALUES 
+ (1,'Pao de queijo kg',1.00,87.55,1,20.00,1),
+ (2,'Leite Integral Minas Lat',100.00,945.00,1,150.00,2),
+ (3,'Pao Frances KG',4.90,982.45,0,35.00,1),
+ (4,'Rosca de Leite Condensado KG',3.79,0.00,0,0.00,1),
+ (5,'Bolo de Cenoura KG',12.50,0.00,0,4.00,1),
+ (6,'Bolo de Coco KG',2.39,0.00,0,4.00,1),
+ (9,'Bolo de Milho KG',2.78,0.00,0,2.00,1),
+ (13,'Broa Temperada KG',2.59,0.00,0,9.00,1),
+ (14,'Coxinha frango com catupiry UN',3.70,0.00,0,9.00,15),
+ (15,'Queijadinha UN',2.50,0.00,0,5.00,15);
+/*!40000 ALTER TABLE `produto` ENABLE KEYS */;
+
+
+--
+-- Definition of table `receita`
+--
+
+DROP TABLE IF EXISTS `receita`;
+CREATE TABLE `receita` (
+  `recCodigo` int(10) unsigned NOT NULL auto_increment,
+  `Produto_proCodigo` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`recCodigo`),
+  KEY `Receita_FKIndex1` (`Produto_proCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `receita`
+--
+
+/*!40000 ALTER TABLE `receita` DISABLE KEYS */;
+INSERT INTO `receita` (`recCodigo`,`Produto_proCodigo`) VALUES 
+ (4,1),
+ (5,2);
+/*!40000 ALTER TABLE `receita` ENABLE KEYS */;
+
+
+--
+-- Definition of table `unidade`
+--
+
+DROP TABLE IF EXISTS `unidade`;
+CREATE TABLE `unidade` (
+  `undCodigo` int(10) unsigned NOT NULL auto_increment,
+  `undDescricao` varchar(45) NOT NULL,
+  PRIMARY KEY  (`undCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `unidade`
+--
+
+/*!40000 ALTER TABLE `unidade` DISABLE KEYS */;
+INSERT INTO `unidade` (`undCodigo`,`undDescricao`) VALUES 
+ (1,'KG'),
+ (2,'LT'),
+ (7,'PÇ'),
+ (8,'GR'),
+ (9,'DZ'),
+ (10,'PDÇ'),
+ (15,'UN');
+/*!40000 ALTER TABLE `unidade` ENABLE KEYS */;
+
+
+--
+-- Definition of table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE `usuario` (
+  `usuCodigo` int(10) unsigned NOT NULL auto_increment,
+  `usuCpf` varchar(14) NOT NULL,
+  `usuNome` varchar(45) NOT NULL,
+  `usuEndereco` varchar(45) NOT NULL,
+  `usuBairro` varchar(45) NOT NULL,
+  `usuCidade` varchar(45) NOT NULL,
+  `usuCep` varchar(10) NOT NULL,
+  `usuEstado` varchar(2) NOT NULL,
+  `usuRg` varchar(10) NOT NULL,
+  `usuEmail` varchar(45) default NULL,
+  `usuTelefone` varchar(13) NOT NULL,
+  `usuLogin` varchar(45) NOT NULL,
+  `usuSenha` varchar(10) NOT NULL,
+  `usuPermissao` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  USING BTREE (`usuCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `usuario`
+--
+
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` (`usuCodigo`,`usuCpf`,`usuNome`,`usuEndereco`,`usuBairro`,`usuCidade`,`usuCep`,`usuEstado`,`usuRg`,`usuEmail`,`usuTelefone`,`usuLogin`,`usuSenha`,`usuPermissao`) VALUES 
+ (1,'083.220.306-88','Marcos Vinicius Morais','Tenente Oscar Teixeira Lima, 49','Novo Horizonte','Formiga','35.570-000','MG','3.562.91 ','marcosmorais49@hotmail.com','(37)3321-1111','Marcos','1111',0),
+ (2,'083.220.306-42','Marianne Kamilla Lemos','Rua Rio de Janeiro, 103','Sagrado C. Jesus','Formiga','35.570-000','MG','3.155.443','marianne_lemos30@hotmail.com','(37)3322-7925','Ka','123',0),
+ (3,'051.220.120-53','Zezinho','Rua A, 888','Centro','Rio de Janeiro','31.223-009','RJ','3.151.283','zezinho@yahoo.com.br','(21)3212-2345','Ze','1',0),
+ (5,'089.443.231-20','Joaozinho','Av. Brasil, 232','São Lourenço','Formiga','35.570-000','MG','3.134.321','joaozinho@yahoo.com.br','(37)3321-2222','joaozinho','1',0);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+
+
+--
+-- Definition of table `venda`
+--
+
+DROP TABLE IF EXISTS `venda`;
+CREATE TABLE `venda` (
+  `venCodigo` int(10) unsigned NOT NULL auto_increment,
+  `Cliente_cliCodigo` int(10) unsigned NOT NULL,
+  `venData` datetime NOT NULL,
+  `venTotal` double(12,2) NOT NULL,
+  PRIMARY KEY  (`venCodigo`),
+  KEY `Venda_FKIndex1` (`Cliente_cliCodigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `venda`
+--
+
+/*!40000 ALTER TABLE `venda` DISABLE KEYS */;
+INSERT INTO `venda` (`venCodigo`,`Cliente_cliCodigo`,`venData`,`venTotal`) VALUES 
+ (1,1,'2013-03-29 11:14:52',101.50),
+ (2,1,'2013-03-29 11:16:52',1.50),
+ (3,1,'2013-03-29 11:17:31',1.00),
+ (4,1,'2013-04-01 10:04:48',1.50),
+ (5,2,'2013-04-01 10:10:10',1.50),
+ (6,3,'2013-04-01 19:23:38',107.97),
+ (7,2,'2013-04-01 19:24:08',103.45),
+ (8,2,'2013-04-01 19:24:34',64.83);
+/*!40000 ALTER TABLE `venda` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

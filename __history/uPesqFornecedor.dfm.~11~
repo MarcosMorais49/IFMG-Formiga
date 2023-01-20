@@ -1,0 +1,154 @@
+object frmPesqFornecedor: TfrmPesqFornecedor
+  Left = 0
+  Top = 0
+  Caption = 'Pesquisar Fornecedores'
+  ClientHeight = 540
+  ClientWidth = 780
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 81
+    Width = 780
+    Height = 459
+    Align = alClient
+    DataSource = dsFornecedor
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = [fsBold]
+    OnDblClick = DBGrid1DblClick
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'forCodigo'
+        Title.Caption = 'C'#243'digo'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'forNome'
+        Title.Caption = 'Fornecedor'
+        Width = 350
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'forCnpj'
+        Title.Caption = 'CNPJ'
+        Width = 175
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'forEndereco'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'forBairro'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'forCidade'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'forEstado'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'forTelefone'
+        Title.Caption = 'Telefone'
+        Width = 167
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'forCep'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'forInscEstadual'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'forEmail'
+        Visible = False
+      end>
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 780
+    Height = 81
+    Align = alTop
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    object Label2: TLabel
+      Left = 24
+      Top = 24
+      Width = 94
+      Height = 19
+      Caption = 'Raz'#227'o Social:'
+    end
+    object Edit1: TEdit
+      Left = 124
+      Top = 21
+      Width = 409
+      Height = 27
+      TabOrder = 0
+    end
+  end
+  object Button1: TButton
+    Left = 551
+    Top = 19
+    Width = 97
+    Height = 31
+    Caption = 'Pesquisar'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object dsFornecedor: TDataSource
+    DataSet = frmDM.tabFornecedor
+    Left = 384
+    Top = 272
+  end
+end

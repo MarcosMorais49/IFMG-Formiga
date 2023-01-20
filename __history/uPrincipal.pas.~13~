@@ -1,0 +1,119 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    c1: TMenuItem;
+    Usurios1: TMenuItem;
+    Clientes1: TMenuItem;
+    Fornecedores1: TMenuItem;
+    Recebimento1: TMenuItem;
+    Receita1: TMenuItem;
+    Relatrio1: TMenuItem;
+    EntradaNotaFiscal1: TMenuItem;
+    CadastrarReceita1: TMenuItem;
+    OrdemdeProduo1: TMenuItem;
+    RealizarVendas1: TMenuItem;
+    Relatrio2: TMenuItem;
+    TreeView1: TTreeView;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Produtos1: TMenuItem;
+    MatriaPrima1: TMenuItem;
+    N1: TMenuItem;
+    Sair1: TMenuItem;
+    N2: TMenuItem;
+    Sair2: TMenuItem;
+    procedure Usurios1Click(Sender: TObject);
+    procedure Clientes1Click(Sender: TObject);
+    procedure Fornecedores1Click(Sender: TObject);
+    procedure Produtos1Click(Sender: TObject);
+    procedure MatriaPrima1Click(Sender: TObject);
+    procedure CadastrarReceita1Click(Sender: TObject);
+    procedure Sair1Click(Sender: TObject);
+    procedure EntradaNotaFiscal1Click(Sender: TObject);
+    procedure OrdemdeProduo1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+uses uCadUsuario, uCadCliente, uCadFornecedor, uCadProduto, uCadMatPrima, uCadReceita, uUnidade,
+      uEntradaNF, uOrdemProducao;
+procedure TfrmPrincipal.CadastrarReceita1Click(Sender: TObject);
+begin
+  frmCadReceita := TfrmCadReceita.Create(Application);
+  frmCadReceita.ShowModal;
+  frmCadReceita.Release;
+end;
+
+procedure TfrmPrincipal.Clientes1Click(Sender: TObject);
+begin
+  frmCadCliente := TfrmCadCliente.Create(Application);
+  frmCadCliente.ShowModal;
+  frmCadCliente.Release;
+end;
+
+procedure TfrmPrincipal.EntradaNotaFiscal1Click(Sender: TObject);
+begin
+  frmEntradaNF := TfrmEntradaNF.Create(Application);
+  frmEntradaNF.ShowModal;
+  frmEntradaNF.Release;
+end;
+
+procedure TfrmPrincipal.Fornecedores1Click(Sender: TObject);
+begin
+  frmCadFornecedor := TfrmCadFornecedor.Create(Application);
+  frmCadFornecedor.ShowModal;
+  frmCadFornecedor.Release;
+end;
+
+procedure TfrmPrincipal.MatriaPrima1Click(Sender: TObject);
+begin
+  frmCadMatPrima := TfrmCadMatPrima.Create(Application);
+  frmCadMatPrima.ShowModal;
+  frmCadMatPrima.Release;
+end;
+
+procedure TfrmPrincipal.OrdemdeProduo1Click(Sender: TObject);
+begin
+  frmOrdemProducao := TfrmOrdemProducao.Create(Application);
+  frmOrdemProducao.ShowModal;
+  frmOrdemProducao.Release;
+end;
+
+procedure TfrmPrincipal.Produtos1Click(Sender: TObject);
+begin
+  frmCadProduto := TfrmCadProduto.Create(Application);
+  frmCadProduto.ShowModal;
+  frmCadProduto.Release;
+end;
+
+procedure TfrmPrincipal.Sair1Click(Sender: TObject);
+begin
+  frmUnidade := TfrmUnidade.Create(Application);
+  frmUnidade.ShowModal;
+  frmUnidade.Release;
+end;
+
+procedure TfrmPrincipal.Usurios1Click(Sender: TObject);
+begin
+  frmCadUsuario := TfrmCadUsuario.Create(Application);
+  frmCadUsuario.ShowModal;
+  frmCadUsuario.Release;
+end;
+
+end.

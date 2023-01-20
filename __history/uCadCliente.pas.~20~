@@ -1,0 +1,306 @@
+unit uCadCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.ActnList, Vcl.ActnMan, Vcl.ActnCtrls,
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ImgList, uDM, uPesqCliente;
+
+type
+  TfrmCadCliente = class(TForm)
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    MaskEdit1: TMaskEdit;
+    MaskEdit2: TMaskEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    MaskEdit3: TMaskEdit;
+    MaskEdit4: TMaskEdit;
+    btnPesquisar: TButton;
+    RadioGroup1: TRadioGroup;
+    ComboBox1: TComboBox;
+    ToolBar1: TToolBar;
+    btnNovo: TToolButton;
+    ToolButton2: TToolButton;
+    btnEditar: TToolButton;
+    ToolButton4: TToolButton;
+    btnSalvar: TToolButton;
+    ToolButton17: TToolButton;
+    btnExcluir: TToolButton;
+    ToolButton19: TToolButton;
+    btnCancelar: TToolButton;
+    ToolButton21: TToolButton;
+    btnSair: TToolButton;
+    Label11: TLabel;
+    Edit6: TEdit;
+    ImageList1: TImageList;
+    ActionManager1: TActionManager;
+    novo: TAction;
+    editar: TAction;
+    salvar: TAction;
+    excluir: TAction;
+    cancelar: TAction;
+    sair: TAction;
+    vender: TAction;
+    pesquisar: TAction;
+    imprimir: TAction;
+    ImageList2: TImageList;
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure habilitarEdicao(verdade : boolean);
+  end;
+
+var
+  frmCadCliente: TfrmCadCliente;
+  var editGrav : boolean;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadCliente.btnCancelarClick(Sender: TObject);
+begin
+  habilitarEdicao(false);
+
+  btnNovo.Enabled := True;
+  btnEditar.Enabled := False;
+  btnExcluir.Enabled := False;
+  btnSalvar.Enabled := False;
+  btnCancelar.Enabled := False;
+  btnSair.Enabled := True;
+  btnPesquisar.Enabled := True;
+  RadioGroup1.Enabled := false;
+
+  Edit1.Clear;
+  Edit2.Clear;
+  Edit3.Clear;
+  Edit4.Clear;
+  Edit5.Clear;
+  Edit6.Clear;
+  MaskEdit1.Clear;
+  MaskEdit2.Clear;
+  MaskEdit3.Clear;
+  MaskEdit4.Clear;
+  ComboBox1.ItemIndex := -1;
+end;
+
+
+procedure TfrmCadCliente.habilitarEdicao(verdade : boolean);
+  begin
+    edit1.Enabled := verdade;
+    edit2.Enabled := verdade;
+    edit3.Enabled := verdade;
+    edit4.Enabled := verdade;
+    edit5.Enabled := verdade;
+    edit6.Enabled := verdade;
+    ComboBox1.Enabled := verdade;
+    MaskEdit1.Enabled := verdade;
+    MaskEdit2.Enabled := verdade;
+    MaskEdit3.Enabled := verdade;
+    MaskEdit4.Enabled := verdade;
+  end;
+
+procedure TfrmCadCliente.btnEditarClick(Sender: TObject);
+begin
+  habilitarEdicao(true);
+
+  btnNovo.Enabled := False;
+  btnEditar.Enabled := False;
+  btnExcluir.Enabled := False;
+  btnSalvar.Enabled := True;
+  btnCancelar.Enabled := True;
+  btnSair.Enabled := False;
+  btnPesquisar.Enabled := False;
+  RadioGroup1.Enabled := true;
+
+  editGrav := false;
+
+  RadioGroup1.SetFocus;
+end;
+
+procedure TfrmCadCliente.btnExcluirClick(Sender: TObject);
+begin
+if Application.MessageBox('Tem certeza que deseja excluir o cliente selecionado?',
+   'Confirmação', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = IDYES then
+  begin
+    btnNovo.Enabled := True;
+    btnEditar.Enabled := False;
+    btnExcluir.Enabled := False;
+    btnSalvar.Enabled := False;
+    btnCancelar.Enabled := False;
+    btnSair.Enabled := True;
+    btnPesquisar.Enabled := True;
+    RadioGroup1.Enabled := false;
+
+    frmDM.Consultas.Close;
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('delete from cliente where cliCodigo = '+Edit1.Text);
+    frmDM.Consultas.ExecSQL;
+
+
+    Edit1.Clear;
+    Edit2.Clear;
+    Edit3.Clear;
+    Edit4.Clear;
+    Edit5.Clear;
+    Edit6.Clear;
+    MaskEdit1.Clear;
+    MaskEdit2.Clear;
+    MaskEdit3.Clear;
+    MaskEdit4.Clear;
+    ComboBox1.ItemIndex := -1;
+
+    frmDM.tabCliente.Close;
+    frmDM.tabCliente.Open;
+  end
+  else
+    abort
+end;
+
+procedure TfrmCadCliente.btnNovoClick(Sender: TObject);
+begin
+ habilitarEdicao(true);
+
+  btnNovo.Enabled := False;
+  btnEditar.Enabled := False;
+  btnExcluir.Enabled := False;
+  btnSalvar.Enabled := True;
+  btnCancelar.Enabled := True;
+  btnSair.Enabled := False;
+  btnPesquisar.Enabled := False;
+  RadioGroup1.Enabled := true;
+
+
+  Edit1.Clear;
+  Edit2.Clear;
+  Edit3.Clear;
+  Edit4.Clear;
+  Edit5.Clear;
+  Edit6.Clear;
+  MaskEdit1.Clear;
+  MaskEdit2.Clear;
+  MaskEdit3.Clear;
+  MaskEdit4.Clear;
+  ComboBox1.ItemIndex := -1;
+
+  editGrav := True;
+
+  RadioGroup1.SetFocus;
+end;
+
+procedure TfrmCadCliente.btnPesquisarClick(Sender: TObject);
+begin
+  frmPesqCliente := TfrmPesqCliente.Create(Application);
+  frmPesqCliente.ShowModal;
+  frmPesqCliente.Release;
+end;
+
+procedure TfrmCadCliente.btnSairClick(Sender: TObject);
+begin
+    frmCadCliente.Close
+end;
+
+procedure TfrmCadCliente.btnSalvarClick(Sender: TObject);
+begin
+ habilitarEdicao(false);
+
+  btnNovo.Enabled := True;
+  btnEditar.Enabled := true;
+  btnExcluir.Enabled := False;
+  btnSalvar.Enabled := false;
+  btnCancelar.Enabled := False;
+  btnSair.Enabled := True;
+  btnPesquisar.Enabled := True;
+  RadioGroup1.Enabled := false;
+
+  if editGrav = true then //Botao Novo
+  begin
+    frmDM.Consultas.Close;
+    frmDM.Consultas.Sql.Clear;
+    frmDM.Consultas.SQL.Add('insert into cliente (cliCpf, cliNome, cliRg, cliEndereco, cliBairro,'
+    + ' cliCidade, cliEstado, cliCep, cliTelefone, cliEmail, cliTipo)'
+    + ' values ('+ QuotedStr(MaskEdit1.Text)+', '+QuotedStr(Edit2.Text)+', '+QuotedStr(MaskEdit2.Text)+', '
+    +QuotedStr(Edit3.Text)+', '+QuotedStr(Edit4.Text)+', '+QuotedStr(Edit5.Text)+', '
+    +QuotedStr(ComboBox1.Text)+', '+QuotedStr(MaskEdit3.Text)+', '+QuotedStr(MaskEdit4.Text)+', '
+    +QuotedStr(Edit6.Text)+', '+QuotedStr(IntToStr(RadioGroup1.ItemIndex))+')');
+    frmDM.Consultas.ExecSQL;
+  end
+
+  else   //botao editar
+  begin
+    frmDM.Consultas.Close;
+    frmDM.Consultas.Sql.Clear;
+    frmDM.Consultas.SQL.Add('update cliente set cliNome = '+QuotedStr(Edit2.text)+','
+                      + ' cliCpf = '+QuotedStr(MaskEdit1.text)+', cliRg = '+QuotedStr(MaskEdit2.text)+','
+                      + ' cliEndereco = '+QuotedStr(Edit3.text)+', cliBairro = '+QuotedStr(Edit4.text)+','
+                      + ' cliCidade = '+QuotedStr(Edit5.text)+', cliEstado = '+QuotedStr(combobox1.text)+','
+                      + ' cliCep = '+QuotedStr(MaskEdit3.text)+', cliTelefone = '+QuotedStr(MaskEdit4.text)+','
+                      + ' cliEmail = '+QuotedStr(Edit6.text)+', cliTipo = '+QuotedStr(IntToStr(RadioGroup1.ItemIndex))
+                      + ' where cliCodigo = '+Edit1.text);
+    frmDM.Consultas.ExecSQL;
+  end;
+  frmDM.Consultas.SQL.Clear;
+  frmDM.Consultas.SQL.Add('select cliCodigo from cliente where cliCpf = '
+  +QuotedStr(MaskEdit1.Text)+' and cliRg = '+QuotedStr(MaskEdit2.Text));
+  frmDM.Consultas.Open;
+  Edit1.Text := frmDM.Consultas.FieldByName('cliCodigo').AsString;
+
+  frmDM.tabCliente.Close;
+  frmDM.tabCliente.Open;
+end;
+
+procedure TfrmCadCliente.FormCreate(Sender: TObject);
+begin
+  frmDM.tabCliente.Active := true;
+
+  btnNovo.Enabled := True;
+  btnEditar.Enabled := False;
+  btnExcluir.Enabled := False;
+  btnSalvar.Enabled := False;
+  btnCancelar.Enabled := False;
+  btnSair.Enabled := True;
+  btnPesquisar.Enabled := True;
+end;
+
+procedure TfrmCadCliente.RadioGroup1Click(Sender: TObject);
+begin
+  if RadioGroup1.ItemIndex = 0 then
+    begin
+      MaskEdit1.EditMask := '999.999.999-99;1;_' ;
+      MaskEdit2.EditMask := '99.999.999;1;_' ;
+    end
+  else
+    begin
+      MaskEdit1.EditMask := '99.999.999/9999-99;1;_' ;
+      MaskEdit2.EditMask := '999.999.999;1;_' ;
+    end;
+end;
+
+end.
+
+

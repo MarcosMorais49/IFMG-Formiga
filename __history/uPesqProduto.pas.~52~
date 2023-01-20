@@ -1,0 +1,257 @@
+unit uPesqProduto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uDM, Data.DB, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmPesqProduto = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsProduto: TDataSource;
+    ComboBox1: TComboBox;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+       function retornaUnd(Und:string):string;
+  end;
+
+var
+  frmPesqProduto: TfrmPesqProduto;
+  pesqProd, undcod : integer;
+
+implementation
+
+uses uCadProduto, uCadReceita, uVenda, uRelReceitasComponentes, uCriarOP, uEntradaNf;
+
+{$R *.dfm}
+
+procedure TfrmPesqProduto.Button1Click(Sender: TObject);
+var temp : string;
+begin
+  if ComboBox1.ItemIndex = 1 then
+    if Edit1.Text <> '' then
+    begin
+      frmDM.tabProduto.Filtered := false;
+      frmDM.tabProduto.Filter := 'recAssociada = 1 and proDescricao like '+QuotedStr(Edit1.Text+'%');
+      frmDM.tabProduto.Filtered := true;
+    end
+    else
+    begin
+      frmDM.tabProduto.Filtered := false;
+      frmDM.tabProduto.Filter := 'recAssociada = 1';
+      frmDM.tabProduto.Filtered := true;
+    end
+
+  else if ComboBox1.ItemIndex = 2 then
+    if Edit1.Text <> '' then
+    begin
+      frmDM.tabProduto.Filtered := false;
+      frmDM.tabProduto.Filter := 'recAssociada = 0 and proDescricao like '+QuotedStr(Edit1.Text+'%');
+      frmDM.tabProduto.Filtered := true;
+    end
+    else
+    begin
+      frmDM.tabProduto.Filtered := false;
+      frmDM.tabProduto.Filter := 'recAssociada = 0';
+      frmDM.tabProduto.Filtered := true;
+    end
+
+  else
+    if Edit1.Text <> '' then
+    begin
+      frmDM.tabProduto.Filtered := false;
+      frmDM.tabProduto.Filter := 'proDescricao like '+QuotedStr(Edit1.Text+'%');
+      frmDM.tabProduto.Filtered := true;
+    end
+    else
+    begin
+      frmDM.tabProduto.Filtered := false;
+      frmDM.tabProduto.Filter := '';
+      frmDM.tabProduto.Filtered := true;
+    end
+end;
+
+procedure TfrmPesqProduto.DBGrid1DblClick(Sender: TObject);
+var i, temp : integer;
+  aux2:real;
+begin
+  i := 1;
+  if pesqProd = 1 then
+  begin
+   frmCadProduto.Edit1.Text := DBGrid1.Fields[0].AsString;
+   frmCadProduto.Edit2.Text := DBGrid1.Fields[1].AsString;
+   frmCadProduto.Edit3.Text := DBGrid1.Fields[2].AsString;
+   frmCadProduto.Edit4.Text := DBGrid1.Fields[3].AsString;
+   frmCadProduto.Edit5.Text := DBGrid1.Fields[5].AsString;
+   frmCadProduto.DBLookupComboBox1.KeyValue := DBGrid1.Fields[6].AsString;
+
+   frmCadProduto.btnNovo.Enabled := true;
+   frmCadProduto.btnEditar.Enabled := true;
+   frmCadProduto.btnExcluir.Enabled := true;
+   frmCadProduto.btnSalvar.Enabled := false;
+   frmCadProduto.btnCancelar.Enabled := false;
+   frmCadProduto.btnSair.Enabled := true;
+   frmCadProduto.btnPesquisar.Enabled := true;
+  end;
+
+  if pesqProd = 2 then
+  if (DBGrid1.Fields[4].Text =  '0') then //Verifica se ja existe receita cadastrada para o produto
+  begin
+    frmCadReceita.Edit2.Clear;
+    frmCadReceita.Edit3.Clear;
+
+    frmCadReceita.Edit2.Text := DBGrid1.Fields[0].AsString;
+    undcod := StrToInt(DBGrid1.Fields[6].AsString);
+    frmCadReceita.Edit3.Text := DBGrid1.Fields[1].AsString+' '+retornaUnd(inttostr(undCod));
+
+    frmCadReceita.btnNovo.Enabled := false;
+    frmCadReceita.btnEditar.Enabled := false;
+    frmCadReceita.btnExcluir.Enabled := false;
+    frmCadReceita.btnSalvar.Enabled := true;
+    frmCadReceita.btnCancelar.Enabled := true;
+    frmCadReceita.btnSair.Enabled := false;
+    frmCadReceita.btnPesquisar.Enabled := true;
+  end
+  else
+  ShowMessage('Já existe receita cadastrada para esse produto!');
+
+  if pesqProd = 3 then
+  begin
+    if DBGrid1.Fields[4].Text = '1' then
+    begin
+    frmCadReceita.Edit2.Text := DBGrid1.Fields[0].AsString;
+    undcod := StrToInt(DBGrid1.Fields[6].AsString);
+    frmCadReceita.Edit3.Text := DBGrid1.Fields[1].AsString+' '+retornaUnd(inttostr(undCod));
+
+    frmDM.Consultas.Close; // Pegar o codigo da receita
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('select * from receita where produto_proCodigo ='+DBGrid1.Fields[0].text);
+    frmDM.Consultas.open;
+    frmCadReceita.Edit1.Text := frmDM.Consultas.FieldByName('recCodigo').Text;
+
+    frmDM.Consultas.Close; // Pegar os itens da receita
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('select * from matPrima_receita where receita_recCodigo ='+frmCadReceita.Edit1.Text);
+    frmDM.Consultas.open;
+
+    while not frmDM.Consultas.Eof do
+    begin
+      frmCadReceita.StringGrid1.RowCount := frmCadReceita.StringGrid1.RowCount+1;
+      frmCadReceita.StringGrid1.Cells[0,i] := frmDM.Consultas.FieldByName('matPrima_mpCodigo').Text;
+      aux2 := StrToFloat(frmDM.Consultas.FieldByName('mp_recQtde').Text);  //converte valor de aux2
+      frmCadReceita.StringGrid1.Cells[2,i] := FormatFloat('###,###,#0.00',aux2); //para 2 casas decimais
+      i:= i+1;
+      frmDM.Consultas.Next;
+    end;
+
+    for I := 1 to frmCadReceita.StringGrid1.RowCount -2 do
+    begin
+      frmDM.Consultas.Close; // Pegar os itens da receita
+      frmDM.Consultas.SQL.Clear;
+      frmDM.Consultas.SQL.Add('select * from matPrima where mpCodigo ='+frmCadReceita.StringGrid1.Cells[0,i]);
+      frmDM.Consultas.open;
+      frmCadReceita.StringGrid1.Cells[1,i] := frmDM.Consultas.FieldByName('mpDescricao').Text;
+    end;
+    frmCadReceita.btnNovo.Enabled := true;
+    frmCadReceita.btnEditar.Enabled := true;
+    frmCadReceita.btnExcluir.Enabled := true;
+    frmCadReceita.btnSalvar.Enabled := false;
+    frmCadReceita.btnCancelar.Enabled := false;
+    frmCadReceita.btnSair.Enabled := true;
+    frmCadReceita.btnPesquisar.Enabled := false;
+    frmCadReceita.btnPesquisar1.Enabled := true;
+  end
+  else
+    begin
+      ShowMessage('Não existe receita cadastrada para este produto!');
+      abort; // esse abort serve para não fechar a janela de pesquisa após a msg de erro
+    end;
+  end;
+
+  if pesqProd = 4 then
+  begin
+    temp := frmVenda.StringGrid1.RowCount;
+    frmVenda.StringGrid1.Cells[0, temp -1] := DBGrid1.Fields[0].AsString;
+    undcod := StrToInt(DBGrid1.Fields[6].AsString);
+    frmVenda.StringGrid1.Cells[1, temp -1] := DBGrid1.Fields[1].AsString+' '+retornaUnd(inttostr(undCod));
+    frmVenda.StringGrid1.Cells[3, temp -1] := DBGrid1.Fields[2].AsString;
+  end;
+
+  if pesqProd = 5 then
+  begin
+    frmDM.Consultas.Close; // Pegar o codigo da receita
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('select * from receita where produto_proCodigo ='+DBGrid1.Fields[0].text);
+    frmDM.Consultas.open;
+    if frmDM.Consultas.IsEmpty then
+    begin
+      ShowMessage('Produto não possui receita cadastrada!');
+      frmRelReceitasComponentes.Edit1.Text := '';
+      frmRelReceitasComponentes.Edit2.Text := '';
+    end
+    else
+    begin
+      frmRelReceitasComponentes.Edit1.Text := frmDM.Consultas.FieldByName('recCodigo').Text;
+      undcod := StrToInt(DBGrid1.Fields[6].AsString);
+      frmRelReceitasComponentes.Edit2.Text := DBGrid1.Fields[1].AsString+' '+retornaUnd(inttostr(undCod));
+    end;
+  end;
+
+  if pesqProd = 6 then
+  begin
+    if DBGrid1.Fields[4].AsString = '1' then
+    begin
+    frmCriarOP.Edit1.Text := DBGrid1.Fields[0].AsString;
+    undcod := StrToInt(DBGrid1.Fields[6].AsString);
+    frmCriarOP.Edit2.Text := DBGrid1.Fields[1].AsString+' '+retornaUnd(inttostr(undCod));
+    frmCriarOP.Edit1.SetFocus;
+    end
+    else
+      ShowMessage('Produto não possui receita cadastrada!');
+  end;
+
+  frmPesqProduto.Close;
+end;
+
+procedure TfrmPesqProduto.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  pesqProd := 9;
+end;
+
+procedure TfrmPesqProduto.FormCreate(Sender: TObject);
+begin
+  frmDM.tabProduto.Close;
+  frmDM.tabReceita.Close;
+  frmDM.tabMpReceita.Close;
+  frmDM.tabProduto.Open;
+  frmDM.tabReceita.Open;
+  frmDM.tabMpReceita.Open;
+
+  frmDM.tabProduto.Filtered := false;
+  frmDM.tabProduto.Filter := '';
+  frmDM.tabProduto.Filtered := true;
+end;
+
+function TfrmPesqProduto.retornaUnd(Und: string): string;
+begin
+   frmDM.Consultas.Close;
+   frmDM.Consultas.SQL.Clear;
+   frmDM.Consultas.SQL.Add('select * from unidade where undCodigo = '+IntToStr(undCod));
+   frmDM.Consultas.Open;
+   result:= frmDM.Consultas.FieldByName('undDescricao').Text;
+end;
+
+end.

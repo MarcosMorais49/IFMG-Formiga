@@ -1,0 +1,36 @@
+unit uRelEstoqueProdutos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, Vcl.ImgList, Vcl.ComCtrls,
+  Vcl.ToolWin;
+
+type
+  TfrmRelEstoqueProdutos = class(TForm)
+    ToolBar1: TToolBar;
+    ToolButton2: TToolButton;
+    btnGerar: TToolButton;
+    ToolButton19: TToolButton;
+    btnCancelar: TToolButton;
+    ToolButton21: TToolButton;
+    ImageList1: TImageList;
+    ImageList2: TImageList;
+    ActionList1: TActionList;
+    Gerar: TAction;
+    Cancelar: TAction;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRelEstoqueProdutos: TfrmRelEstoqueProdutos;
+
+implementation
+
+{$R *.dfm}
+
+end.

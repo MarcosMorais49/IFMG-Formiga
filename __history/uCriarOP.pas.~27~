@@ -1,0 +1,171 @@
+unit uCriarOP;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ImgList, Vcl.ComCtrls,
+  Vcl.ToolWin, uDM, Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, RpBase,
+  RpSystem, RpRave, RpDefine, RpCon, RpConDS;
+
+type
+  TfrmCriarOP = class(TForm)
+    ToolBar1: TToolBar;
+    ToolButton2: TToolButton;
+    btnConfirmar: TToolButton;
+    ToolButton4: TToolButton;
+    btnCancelar: TToolButton;
+    ToolButton21: TToolButton;
+    ImageList1: TImageList;
+    ImageList2: TImageList;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    btnPesquisar: TButton;
+    DataSource1: TDataSource;
+    RVConexaoProducao: TRvDataSetConnection;
+    RvConexaoItensProducao: TRvDataSetConnection;
+    RvProjectRomaneio: TRvProject;
+    RvSystemRomaneio: TRvSystem;
+    procedure Edit1Exit(Sender: TObject);
+    procedure btnConfirmarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCriarOP: TfrmCriarOP;
+
+implementation
+
+{$R *.dfm}
+var tempCodReceita : integer;
+
+procedure TfrmCriarOP.btnCancelarClick(Sender: TObject);
+begin
+  frmCriarOP.Close;
+end;
+
+procedure TfrmCriarOP.btnConfirmarClick(Sender: TObject);
+var tempMpCodigo : array of integer;
+    tempMpQtde : array of real;
+    tempProducao, i, j, x: integer;
+    aux : boolean;
+begin
+  i:=0;
+  aux := false;
+  frmDM.Consultas.Close;
+  frmDM.Consultas.SQL.Clear;
+  frmDM.Consultas.SQL.Add('select * from matPrima_receita where receita_recCodigo = '
+  +QuotedStr(IntToStr(tempCodReceita)));
+  frmDM.Consultas.Open; //Pesquisa os itens da receita para salva-los na tabela itenProdução
+
+  x:= frmDM.Consultas.RecordCount;//Pega a quantidade de itens da receita para o vetor
+
+  SetLength(tempMpCodigo,x); //define o tamanho do vetor de acordo com os itens da receita
+  SetLength(tempMpQtde,x); //define o tamanho do vetor de acordo com os itens da receita
+  frmDM.Consultas.First;
+  while not frmDM.Consultas.Eof do
+  begin
+    tempMpCodigo[i] := StrToInt(frmDM.Consultas.FieldByName('matPrima_mpCodigo').AsString);
+    tempMpQtde[i] := StrToFloat(frmDM.Consultas.FieldByName('mp_recQtde').AsString)*
+    StrToFloat(edit3.Text);  //Carrega o vetor com os itens e qtdes constantes em cada
+    i:=i+1;         // item da receita, multiplicado pela quantidade a ser produzida
+    frmDM.Consultas.Next;
+  end;
+
+  for i := 0 to x-1 do
+  begin
+    frmDM.Consultas.Close;
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('Select * from matPrima where mpCodigo = '
+    +QuotedStr(IntToStr(tempMpCodigo[i])));
+    frmDM.Consultas.Open;
+    if (tempMpQtde[i] > StrToFloat(frmDM.Consultas.FieldByName('mpEstoque').AsString)) then
+    begin
+      ShowMessage('O estoque do produto cod. '+QuotedStr(IntToStr(tempMpCodigo[i]))+' é insuficiente para a operação');
+      aux := true
+    end; //Verificar se o estoque de MP é maior que o nacessário para a produção
+  end;
+
+  if aux = true then
+    frmCriarOP.Close //se o estoque for menor, cancela a execução
+  else // se o estoque permitir, continua executando a produção
+  begin
+    frmDM.Consultas.Close;
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('insert into producao (pdc_codReceita, pdcData, '{pdcUsuario,}
+    +' pdcStatus, pdcQtde) values ('+QuotedStr(IntToStr(tempCodReceita))+', current_Date, '
+    +{'usuario logado'}QuotedStr('Incluido')+', '+QuotedStr(Edit3.Text)+');');
+    frmDM.Consultas.ExecSQL; //Insere dados na tabela Produção
+
+    frmDM.Consultas.Close;
+    frmDM.Consultas.SQL.Clear;
+    frmDM.Consultas.SQL.Add('select MAX(pdcCodigo) from producao');
+    frmDM.Consultas.Open; //Pega o código da ultima produção inserida para usar na prox. linha
+    tempProducao := StrToInt(frmDM.Consultas.FieldByName('MAX(pdcCodigo)').AsString);
+
+    for j:=0 to x-1 do
+    begin
+      frmDM.Consultas.Close;
+      frmDM.Consultas.SQL.Clear;
+      frmDM.Consultas.SQL.Add('insert into itens_producao (itPdc_pdcCodigo, itPdc_mpCodigo,'
+      +' itPdcQtdePrevista) values ('+QuotedStr(IntToStr(tempProducao))+', '
+      +QuotedStr(IntToStr(tempMpCodigo[j]))+', '
+      +QuotedStr(StringReplace(FloatToStr(tempMpQtde[j]), ',', '.', [rfReplaceAll]))+');');
+      frmDM.Consultas.ExecSQL;   //Insere os itens na tabela itens_producao
+    end;
+
+    for j:= 0 to x-1 do
+    begin
+      frmDM.Consultas.Close;
+      frmDM.Consultas.SQL.Clear;
+      frmDM.Consultas.SQL.Add('update matPrima set mpEstoque = mpEstoque - '
+      +QuotedStr(StringReplace(FloatToStr(tempMpQtde[j]), ',', '.', [rfReplaceAll]))
+      +' where mpCodigo = '+QuotedStr(IntToStr(tempMpCodigo[j])));
+      frmDM.Consultas.ExecSQL;
+    end;
+
+    frmDM.qryProducao.Close;
+    frmDM.qryProducao.SQL.Clear;
+    frmDM.qryProducao.SQL.Add('Select * from producao where pdcCodigo = '+QuotedStr(IntToStr(tempProducao)));
+    ShowMessage(frmDM.qryProducao.SQL.Text);
+    RvProjectRomaneio.Open;
+    RvProjectRomaneio.ExecuteReport('Report1');
+
+    frmDM.tabProducao.Close;
+    frmDM.tabProducao.Open;
+
+    frmCriarOP.Close;
+  end;
+end;
+
+procedure TfrmCriarOP.Edit1Exit(Sender: TObject);
+begin
+   tempCodReceita := 0;
+   frmDM.Consultas.Close;
+   frmDM.Consultas.SQL.Clear;
+   frmDM.Consultas.SQL.Add('select * from receita where produto_proCodigo = '+Edit1.Text);
+   frmDM.Consultas.Open;
+   if frmDM.Consultas.FieldByName('recCodigo').AsString = '' then
+     ShowMessage('Este item não possui receita cadastrada ou não existe!')
+   else
+   begin
+   tempCodReceita := StrToInt(frmDM.Consultas.FieldByName('recCodigo').AsString);
+
+   frmDM.Consultas.Close;
+   frmDM.Consultas.SQL.Clear;
+   frmDM.Consultas.SQL.Add('select * from produto where proCodigo = '+Edit1.Text);
+   frmDM.Consultas.Open;
+   Edit2.Text := frmDM.Consultas.FieldByName('proDescricao').AsString;
+   end
+
+end;
+
+end.

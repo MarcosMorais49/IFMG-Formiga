@@ -1,0 +1,68 @@
+unit uPesqUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, uDM, Data.DB;
+
+type
+  TfrmPesqUsuario = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsUsuario: TDataSource;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqUsuario: TfrmPesqUsuario;
+
+implementation
+
+uses uCadUsuario;
+
+{$R *.dfm}
+
+procedure TfrmPesqUsuario.Button1Click(Sender: TObject);
+begin
+  if Edit1.Text <> '' then
+  begin
+    frmDM.tabUsuario.Filtered := false;
+    frmDM.tabUsuario.Filter := 'usuNome like '+QuotedStr(Edit1.Text+'%');
+    frmDM.tabUsuario.Filtered := true;
+  end
+  else
+  begin
+    frmDM.tabUsuario.Filtered := false;
+    frmDM.tabUsuario.Filter := '';
+    frmDM.tabUsuario.Filtered := true;
+  end
+end;
+
+procedure TfrmPesqUsuario.DBGrid1DblClick(Sender: TObject);
+begin
+  frmCadUsuario.Edit1.Text := DBGrid1.Fields[0].AsString;
+  frmCadUsuario.Edit2.Text := DBGrid1.Fields[2].AsString;
+  frmCadUsuario.Edit3.Text := DBGrid1.Fields[3].AsString;
+  frmCadUsuario.Edit4.Text := DBGrid1.Fields[4].AsString;
+  frmCadUsuario.Edit5.Text := DBGrid1.Fields[5].AsString;
+  frmCadUsuario.Edit6.Text := DBGrid1.Fields[11].AsString;
+  frmCadUsuario.Edit7.Text := DBGrid1.Fields[12].AsString;
+  frmCadUsuario.Edit8.Text := DBGrid1.Fields[9].AsString;
+  frmCadUsuario.MaskEdit1.Text := DBGrid1.Fields[1].AsString;
+  frmCadUsuario.MaskEdit2.Text := DBGrid1.Fields[8].AsString;
+  frmCadUsuario.MaskEdit3.Text := DBGrid1.Fields[6].AsString;
+  frmCadUsuario.MaskEdit4.Text := DBGrid1.Fields[10].AsString;
+  frmCadUsuario.ComboBox1.Text := DBGrid1.Fields[7].AsString;
+end;
+
+end.

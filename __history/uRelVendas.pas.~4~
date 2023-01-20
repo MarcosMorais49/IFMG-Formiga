@@ -1,0 +1,84 @@
+unit uRelVendas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, Vcl.ImgList, Vcl.ComCtrls,
+  Vcl.ToolWin, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, uDM;
+
+type
+  TfrmRelVenda = class(TForm)
+    ToolBar1: TToolBar;
+    ToolButton2: TToolButton;
+    btnGerar: TToolButton;
+    ToolButton19: TToolButton;
+    btnCancelar: TToolButton;
+    ToolButton21: TToolButton;
+    ImageList1: TImageList;
+    ImageList2: TImageList;
+    ActionList1: TActionList;
+    Gerar: TAction;
+    Cancelar: TAction;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    MaskEdit1: TMaskEdit;
+    MaskEdit2: TMaskEdit;
+    CheckBox1: TCheckBox;
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnGerarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRelVenda: TfrmRelVenda;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmRelVenda.btnCancelarClick(Sender: TObject);
+begin
+  frmRelVenda.Close;
+end;
+
+procedure TfrmRelVenda.btnGerarClick(Sender: TObject);
+var dt1, dt2 : string;
+begin
+  try
+  dt1 := FormatDateTime('yyyy-mm-dd',StrToDate(MaskEdit1.Text));
+  dt2 := FormatDateTime('yyyy-mm-dd',StrToDate(MaskEdit2.Text));
+  except
+    ShowMessage('Erro na conversão das datas');
+    exit;
+  end;
+
+  frmDM.qry.Close;
+  dm.QryVenda.SQL.Clear;
+  dm.QryVenda.SQL.Add('select * from venda, cliente where dataVenda between '
+  +QuotedStr(dt1)+' and '+QuotedStr(dt2)+
+  ' and cliente.codCliente = venda.cliente_codCliente order by venda.codVenda');
+
+  if CheckBox1.Checked = true then
+  begin
+    dm.tVenda.Open;
+    dm.tCliente.Open;
+    RvProject1PorData.Open;
+    RvProject1PorData.ExecuteReport('Report1');
+
+  end
+  else
+  begin
+    dm.tVenda.Open;
+    dm.tCliente.Open;
+    RvProject1VendasPer.Open;
+    RvProject1VendasPer.ExecuteReport('Report1');
+  end;
+end;
+
+end.

@@ -1,0 +1,70 @@
+unit uPesqFornecedor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, uDM, Data.DB, strUtils;
+
+type
+  TfrmPesqFornecedor = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsFornecedor: TDataSource;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqFornecedor: TfrmPesqFornecedor;
+
+implementation
+
+uses uCadFornecedor;
+
+{$R *.dfm}
+
+procedure TfrmPesqFornecedor.Button1Click(Sender: TObject);
+begin
+  if Edit1.Text <> '' then
+  begin
+    frmDM.tabFornecedor.Filtered := false;
+    frmDM.tabFornecedor.Filter := 'forNome like '+QuotedStr(Edit1.Text+'%');
+    frmDM.tabFornecedor.Filtered := true;
+  end
+  else
+  begin
+    frmDM.tabFornecedor.Filtered := false;
+    frmDM.tabFornecedor.Filter := '';
+    frmDM.tabFornecedor.Filtered := true;
+  end
+end;
+
+procedure TfrmPesqFornecedor.DBGrid1DblClick(Sender: TObject);
+var temp : string;
+begin
+  frmCadFornecedor.Edit1.Text :=  DBGrid1.Fields[0].AsString;
+  frmCadFornecedor.Edit2.Text :=  DBGrid1.Fields[2].AsString;
+  frmCadFornecedor.Edit3.Text :=  DBGrid1.Fields[3].AsString;
+  frmCadFornecedor.Edit4.Text :=  DBGrid1.Fields[4].AsString;
+  frmCadFornecedor.Edit5.Text :=  DBGrid1.Fields[5].AsString;
+  frmCadFornecedor.Edit6.Text :=  DBGrid1.Fields[10].AsString;
+  frmCadFornecedor.MaskEdit1.Text :=  DBGrid1.Fields[1].AsString;
+  frmCadFornecedor.MaskEdit2.Text :=  DBGrid1.Fields[9].AsString;
+  frmCadFornecedor.MaskEdit3.Text :=  DBGrid1.Fields[8].AsString;
+  frmCadFornecedor.MaskEdit4.Text :=  DBGrid1.Fields[7].AsString;
+  frmCadFornecedor.ComboBox1.Text :=  DBGrid1.Fields[6].AsString;
+
+
+  frmPesqFornecedor.Close;
+end;
+
+end.

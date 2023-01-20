@@ -1,0 +1,50 @@
+unit uLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin, Vcl.ImgList;
+
+type
+  TfrmLogin = class(TForm)
+    ImageList1: TImageList;
+    ToolBar1: TToolBar;
+    ToolButton2: TToolButton;
+    btnOk: TToolButton;
+    ToolButton19: TToolButton;
+    btnSair: TToolButton;
+    ToolButton21: TToolButton;
+    Panel1: TPanel;
+    Image1: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    procedure btnSairClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLogin: TfrmLogin;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmLogin.btnOkClick(Sender: TObject);
+begin
+  frmLogin.Close;
+end;
+
+procedure TfrmLogin.btnSairClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+end.

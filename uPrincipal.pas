@@ -1,0 +1,256 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    c1: TMenuItem;
+    Usurios1: TMenuItem;
+    Clientes1: TMenuItem;
+    Fornecedores1: TMenuItem;
+    Recebimento1: TMenuItem;
+    Receita1: TMenuItem;
+    Relatrio1: TMenuItem;
+    EntradaNotaFiscal1: TMenuItem;
+    CadastrarReceita1: TMenuItem;
+    OrdemdeProduo1: TMenuItem;
+    RealizarVendas1: TMenuItem;
+    Relatrio2: TMenuItem;
+    TreeView1: TTreeView;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Produtos1: TMenuItem;
+    MatriaPrima1: TMenuItem;
+    N1: TMenuItem;
+    Sair1: TMenuItem;
+    N2: TMenuItem;
+    Sair2: TMenuItem;
+    RelatReceitasXComponentes1: TMenuItem;
+    RelatEstoquedeProdutos1: TMenuItem;
+    RelatEstoquedeMatriaPrima1: TMenuItem;
+    RelatVendas1: TMenuItem;
+    procedure Usurios1Click(Sender: TObject);
+    procedure Clientes1Click(Sender: TObject);
+    procedure Fornecedores1Click(Sender: TObject);
+    procedure Produtos1Click(Sender: TObject);
+    procedure MatriaPrima1Click(Sender: TObject);
+    procedure CadastrarReceita1Click(Sender: TObject);
+    procedure Sair1Click(Sender: TObject);
+    procedure EntradaNotaFiscal1Click(Sender: TObject);
+    procedure OrdemdeProduo1Click(Sender: TObject);
+    procedure RealizarVendas1Click(Sender: TObject);
+    procedure TreeView1DblClick(Sender: TObject);
+    procedure RelatReceitasXComponentes1Click(Sender: TObject);
+    procedure RelatEstoquedeProdutos1Click(Sender: TObject);
+    procedure RelatEstoquedeMatriaPrima1Click(Sender: TObject);
+    procedure RelatVendas1Click(Sender: TObject);
+    procedure RelatItensVendidos1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+uses uCadUsuario, uCadCliente, uCadFornecedor, uCadProduto, uCadMatPrima, uCadReceita, uUnidade,
+      uEntradaNF, uOrdemProducao, uVenda, uRelReceitasComponentes, uRelEstoqueProdutos,
+      uRelEstoqueMatPrima, uRelVendas, uRelItemVenda;
+
+procedure TfrmPrincipal.CadastrarReceita1Click(Sender: TObject);
+begin
+  frmCadReceita := TfrmCadReceita.Create(Application);
+  frmCadReceita.ShowModal;
+  frmCadReceita.Release;
+end;
+
+procedure TfrmPrincipal.Clientes1Click(Sender: TObject);
+begin
+  frmCadCliente := TfrmCadCliente.Create(Application);
+  frmCadCliente.ShowModal;
+  frmCadCliente.Release;
+end;
+
+procedure TfrmPrincipal.EntradaNotaFiscal1Click(Sender: TObject);
+begin
+  frmEntradaNF := TfrmEntradaNF.Create(Application);
+  frmEntradaNF.ShowModal;
+  frmEntradaNF.Release;
+end;
+
+procedure TfrmPrincipal.Fornecedores1Click(Sender: TObject);
+begin
+  frmCadFornecedor := TfrmCadFornecedor.Create(Application);
+  frmCadFornecedor.ShowModal;
+  frmCadFornecedor.Release;
+end;
+
+procedure TfrmPrincipal.MatriaPrima1Click(Sender: TObject);
+begin
+  frmCadMatPrima := TfrmCadMatPrima.Create(Application);
+  frmCadMatPrima.ShowModal;
+  frmCadMatPrima.Release;
+end;
+
+procedure TfrmPrincipal.OrdemdeProduo1Click(Sender: TObject);
+begin
+  frmOrdemProducao := TfrmOrdemProducao.Create(Application);
+  frmOrdemProducao.ShowModal;
+  frmOrdemProducao.Release;
+end;
+
+procedure TfrmPrincipal.Produtos1Click(Sender: TObject);
+begin
+  frmCadProduto := TfrmCadProduto.Create(Application);
+  frmCadProduto.ShowModal;
+  frmCadProduto.Release;
+end;
+
+procedure TfrmPrincipal.RealizarVendas1Click(Sender: TObject);
+begin
+  frmVenda := TfrmVenda.Create(Application);
+  frmVenda.ShowModal;
+  frmVenda.Release;
+end;
+
+procedure TfrmPrincipal.RelatEstoquedeMatriaPrima1Click(Sender: TObject);
+begin
+  frmRelEstoqueMatPrima := TfrmRelEstoqueMatPrima.Create(Application);
+  frmRelEstoqueMatPrima.ShowModal;
+  frmRelEstoqueMatPrima.Release;
+end;
+
+procedure TfrmPrincipal.RelatEstoquedeProdutos1Click(Sender: TObject);
+begin
+  frmRelEstoqueProdutos := TfrmRelEstoqueProdutos.Create(Application);
+  frmRelEstoqueProdutos.ShowModal;
+  frmRelEstoqueProdutos.Release;
+end;
+
+procedure TfrmPrincipal.RelatItensVendidos1Click(Sender: TObject);
+begin
+  frmRelItemVenda := TfrmRelItemVenda.Create(Application);
+  frmRelItemVenda.ShowModal;
+  frmRelItemVenda.Release;
+end;
+
+procedure TfrmPrincipal.RelatReceitasXComponentes1Click(Sender: TObject);
+begin
+  frmRelReceitasComponentes := tfrmRelReceitasComponentes.Create(Application);
+  frmRelReceitasComponentes.ShowModal;
+  frmRelReceitasComponentes.Release;
+end;
+
+procedure TfrmPrincipal.RelatVendas1Click(Sender: TObject);
+begin
+  frmRelVenda := TfrmRelVenda.Create(Application);
+  frmRelVenda.ShowModal;
+  frmRelVenda.Release;
+end;
+
+procedure TfrmPrincipal.Sair1Click(Sender: TObject);
+begin
+  frmUnidade := TfrmUnidade.Create(Application);
+  frmUnidade.ShowModal;
+  frmUnidade.Release;
+end;
+
+procedure TfrmPrincipal.TreeView1DblClick(Sender: TObject);
+begin
+    if (TreeView1.Selected.SelectedIndex = 1) then
+    begin
+      frmCadUsuario := TfrmCadUsuario.Create(Application);
+      frmCadUsuario.ShowModal;
+      frmCadUsuario.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 2) then
+    begin
+      frmCadCliente := TfrmCadCliente.Create(Application);
+      frmCadCliente.ShowModal;
+      frmCadCliente.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 3) then
+    begin
+      frmCadFornecedor := TfrmCadFornecedor.Create(Application);
+      frmCadFornecedor.ShowModal;
+      frmCadFornecedor.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 4) then
+    begin
+      frmCadProduto := TfrmCadProduto.Create(Application);
+      frmCadProduto.ShowModal;
+      frmCadProduto.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 5) then
+    begin
+      frmCadMatPrima := TfrmCadMatPrima.Create(Application);
+      frmCadMatPrima.ShowModal;
+      frmCadMatPrima.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 6) then
+    begin
+      frmEntradaNF := TfrmEntradaNF.Create(Application);
+      frmEntradaNF.ShowModal;
+      frmEntradaNF.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 7) then
+    begin
+      frmCadReceita := TfrmCadReceita.Create(Application);
+      frmCadReceita.ShowModal;
+      frmCadReceita.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 8) then
+    begin
+      frmOrdemProducao := TfrmOrdemProducao.Create(Application);
+      frmOrdemProducao.ShowModal;
+      frmOrdemProducao.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 9) then
+    begin
+      frmVenda := TfrmVenda.Create(Application);
+      frmVenda.ShowModal;
+      frmVenda.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 10) then
+    begin
+      frmRelReceitasComponentes := tfrmRelReceitasComponentes.Create(Application);
+      frmRelReceitasComponentes.ShowModal;
+      frmRelReceitasComponentes.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 11) then
+    begin
+      frmRelEstoqueProdutos := TfrmRelEstoqueProdutos.Create(Application);
+      frmRelEstoqueProdutos.ShowModal;
+      frmRelEstoqueProdutos.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 12) then
+    begin
+      frmRelEstoqueMatPrima := tfrmRelEstoqueMatPrima.Create(Application);
+      frmRelEstoqueMatPrima.ShowModal;
+      frmRelEstoqueMatPrima.Release;
+    end;
+  if (TreeView1.Selected.SelectedIndex = 13) then
+    begin
+      frmRelVenda := TfrmRelVenda.Create(Application);
+      frmRelVenda.ShowModal;
+      frmRelVenda.Release;
+    end;
+end;
+
+procedure TfrmPrincipal.Usurios1Click(Sender: TObject);
+begin
+  frmCadUsuario := TfrmCadUsuario.Create(Application);
+  frmCadUsuario.ShowModal;
+  frmCadUsuario.Release;
+end;
+
+end.

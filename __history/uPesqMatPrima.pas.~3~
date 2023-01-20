@@ -1,0 +1,60 @@
+unit uPesqMatPrima;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uDM, Data.DB, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmPesqMatPrima = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsMatPrima: TDataSource;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqMatPrima: TfrmPesqMatPrima;
+
+implementation
+
+uses uCadMatPrima;
+
+{$R *.dfm}
+
+procedure TfrmPesqMatPrima.Button1Click(Sender: TObject);
+begin
+  if Edit1.Text <> '' then
+  begin
+    frmDM.tabMp.Filtered := false;
+    frmDM.tabMp.Filter := 'mpDescricao like '+QuotedStr(Edit1.Text+'%');
+    frmDM.tabMp.Filtered := true;
+  end
+  else
+  begin
+    frmDM.tabMp.Filtered := false;
+    frmDM.tabMp.Filter := '';
+    frmDM.tabMp.Filtered := true;
+  end
+end;
+
+procedure TfrmPesqMatPrima.DBGrid1DblClick(Sender: TObject);
+begin
+  frmCadMatPrima.Edit1.Text := DBGrid1.Fields[0].AsString;
+  frmCadMatPrima.Edit2.Text := DBGrid1.Fields[1].AsString;
+  frmCadMatPrima.Edit3.Text := DBGrid1.Fields[2].AsString;
+  frmCadMatPrima.Edit4.Text := DBGrid1.Fields[4].AsString;
+  frmCadMatPrima.Edit5.Text := DBGrid1.Fields[3].AsString;
+end;
+
+end.

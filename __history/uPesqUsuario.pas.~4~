@@ -1,0 +1,48 @@
+unit uPesqUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, uDM, Data.DB;
+
+type
+  TfrmPesqUsuario = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsUsuario: TDataSource;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqUsuario: TfrmPesqUsuario;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPesqUsuario.Button1Click(Sender: TObject);
+begin
+  if Edit1.Text <> '' then
+  begin
+    frmDM.tabUsuario.Filtered := false;
+    frmDM.tabUsuario.Filter := 'usuNome like '+QuotedStr(Edit1.Text+'%');
+    frmDM.tabUsuario.Filtered := true;
+  end
+  else
+  begin
+    frmDM.tabUsuario.Filtered := false;
+    frmDM.tabUsuario.Filter := '';
+    frmDM.tabUsuario.Filtered := true;
+  end
+end;
+
+end.

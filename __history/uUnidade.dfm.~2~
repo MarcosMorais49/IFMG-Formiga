@@ -1,0 +1,46 @@
+object frmUnidade: TfrmUnidade
+  Left = 0
+  Top = 0
+  Caption = 'frmUnidade'
+  ClientHeight = 508
+  ClientWidth = 625
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 241
+    Top = 8
+    Width = 144
+    Height = 313
+    DataSource = DataSource1
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'undCodigo'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'Unidade'
+        Width = 128
+        Visible = True
+      end>
+  end
+  object DataSource1: TDataSource
+    DataSet = frmDM.tabUnidade
+    Left = 368
+    Top = 384
+  end
+end

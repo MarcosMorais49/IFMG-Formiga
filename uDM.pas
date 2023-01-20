@@ -1,0 +1,145 @@
+unit uDM;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.Win.ADODB, Data.DB;
+
+type
+  TfrmDM = class(TDataModule)
+    ADOConnectionPadaria: TADOConnection;
+    tabUsuario: TADOTable;
+    tabFornecedor: TADOTable;
+    tabCliente: TADOTable;
+    tabProduto: TADOTable;
+    tabReceita: TADOTable;
+    tabMp: TADOTable;
+    tabEntrada: TADOTable;
+    tabEntrada_mp: TADOTable;
+    tabMpReceita: TADOTable;
+    tabItemVenda: TADOTable;
+    tabVenda: TADOTable;
+    Consultas: TADOQuery;
+    tabMpmpCodigo: TAutoIncField;
+    tabMpmpDescricao: TStringField;
+    tabMpmpPCusto: TFloatField;
+    tabMpmpEstoque: TFloatField;
+    tabMpmpEstMinimo: TFloatField;
+    tabProducao: TADOTable;
+    tabUnidade: TADOTable;
+    tabUnidadeundCodigo: TAutoIncField;
+    tabUnidadeundDescricao: TStringField;
+    tabMpReceitaMatPrima_mpCodigo: TIntegerField;
+    tabMpReceitaReceita_recCodigo: TIntegerField;
+    tabMpReceitamp_recControle: TAutoIncField;
+    tabMpReceitamp_recQtde: TFloatField;
+    tabClientecliCodigo: TAutoIncField;
+    tabClientecliNome: TStringField;
+    tabClientecliEndereco: TStringField;
+    tabClientecliBairro: TStringField;
+    tabClientecliCidade: TStringField;
+    tabClientecliCep: TStringField;
+    tabClientecliEstado: TStringField;
+    tabClientecliCpf: TStringField;
+    tabClientecliRg: TStringField;
+    tabClientecliEmail: TStringField;
+    tabClientecliTelefone: TStringField;
+    tabClientecliTipo: TSmallintField;
+    tabMpmp_undCodigo: TIntegerField;
+    tabEntrada_mpent_mpControle: TAutoIncField;
+    tabEntrada_mpMatPrima_mpCodigo: TIntegerField;
+    tabEntrada_mpmp_nfQtde: TFloatField;
+    tabEntradaentControle: TAutoIncField;
+    tabEntradaFornecedor_forCodigo: TIntegerField;
+    tabEntradaentNumero: TIntegerField;
+    tabEntradaentSerie: TStringField;
+    tabEntradaentEmissao: TDateField;
+    tabEntradaentEntrada: TDateField;
+    tabEntradaentTotal: TFloatField;
+    tabEntradaentBaseIcms: TFloatField;
+    tabEntradaentValorIcms: TFloatField;
+    tabEntradaentBaseSt: TFloatField;
+    tabEntradaentValorSt: TFloatField;
+    tabEntradaentIpi: TFloatField;
+    tabEntradaentDesconto: TFloatField;
+    tabEntradaentDespesa: TFloatField;
+    tabEntradaentLiquido: TFloatField;
+    tabEntradaForNome: TStringField;
+    tabEntrada_mpEntrada_entControle: TIntegerField;
+    tabItemProducao: TADOTable;
+    tabMpReceitampDescricao: TStringField;
+    tabReceitarecCodigo: TAutoIncField;
+    tabReceitaProduto_proCodigo: TIntegerField;
+    tabReceitaproDescricao: TStringField;
+    tabProducaopdcCodigo: TAutoIncField;
+    tabProducaopdc_codReceita: TIntegerField;
+    tabProducaopdcData: TDateField;
+    tabProducaopdcStatus: TStringField;
+    tabProducaopdcQtde: TIntegerField;
+    tabProducaoReceita_pdcCodProduto: TIntegerField;
+    tabProducaoProDescricao: TStringField;
+    qryItemProducao: TADOQuery;
+    qryProducao: TADOQuery;
+    qryItemProducaoitPdcCodigo: TAutoIncField;
+    qryItemProducaoitPdc_mpCodigo: TIntegerField;
+    qryItemProducaoitPdcQtdePrevista: TFloatField;
+    qryItemProducaoitPdcQtdeUsada: TFloatField;
+    qryItemProducaoitPdc_pdcCodigo: TIntegerField;
+    qryProducaopdcCodigo: TAutoIncField;
+    qryProducaopdc_codReceita: TIntegerField;
+    qryProducaopdcData: TDateField;
+    qryProducaopdcStatus: TStringField;
+    qryProducaopdcQtde: TIntegerField;
+    qryProducaoReceita_pdcCodProduto: TIntegerField;
+    qryProducaoProDescricao: TStringField;
+    qryItemProducaompDescricao: TStringField;
+    qryProduto: TADOQuery;
+    qryReceita: TADOQuery;
+    qryMpReceita: TADOQuery;
+    qryReceitarecCodigo: TAutoIncField;
+    qryReceitaProduto_proCodigo: TIntegerField;
+    qryReceitaProDescricao: TStringField;
+    qryMpReceitaMatPrima_mpCodigo: TIntegerField;
+    qryMpReceitaReceita_recCodigo: TIntegerField;
+    qryMpReceitamp_recControle: TAutoIncField;
+    qryMpReceitamp_recQtde: TFloatField;
+    qryMpReceitampDescricao: TStringField;
+    qryMp: TADOQuery;
+    qryVenda: TADOQuery;
+    qryItemVenda: TADOQuery;
+    qryVendavenCodigo: TAutoIncField;
+    qryVendaCliente_cliCodigo: TIntegerField;
+    qryVendavenData: TDateTimeField;
+    qryVendavenTotal: TFloatField;
+    qryVendacliNome: TStringField;
+    tabProducaopdcUsuarioNome: TStringField;
+    tabProducaopdcUsuario: TIntegerField;
+    qryProducaopdcUsuario: TIntegerField;
+    tabProdutoproCodigo: TAutoIncField;
+    tabProdutoproDescricao: TStringField;
+    tabProdutoproPVenda: TFloatField;
+    tabProdutoproEstoque: TFloatField;
+    tabProdutorecAssociada: TSmallintField;
+    tabProdutoproEstMinimo: TFloatField;
+    tabProdutopro_undCodigo: TIntegerField;
+    tabProdutopro_undDescricao: TStringField;
+    qryUnidade: TADOQuery;
+    tabProducaopdc_proUnidDesc: TStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDM: TfrmDM;
+  usuConectado : integer;
+
+implementation
+
+{%CLASSGROUP 'System.Classes.TPersistent'}
+
+{$R *.dfm}
+
+end.
+

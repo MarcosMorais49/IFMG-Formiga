@@ -1,0 +1,112 @@
+unit uPesqUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, uDM, Data.DB, strUtils;
+
+type
+  TfrmPesqUsuario = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsUsuario: TDataSource;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqUsuario: TfrmPesqUsuario;
+
+implementation
+
+uses uCadUsuario;
+
+{$R *.dfm}
+
+procedure TfrmPesqUsuario.Button1Click(Sender: TObject);
+begin
+  if Edit1.Text <> '' then
+  begin
+    frmDM.tabUsuario.Filtered := false;
+    frmDM.tabUsuario.Filter := 'usuNome like '+QuotedStr(Edit1.Text+'%');
+    frmDM.tabUsuario.Filtered := true;
+  end
+  else
+  begin
+    frmDM.tabUsuario.Filtered := false;
+    frmDM.tabUsuario.Filter := '';
+    frmDM.tabUsuario.Filtered := true;
+  end
+end;
+
+procedure TfrmPesqUsuario.DBGrid1DblClick(Sender: TObject);
+var temp : string;
+begin
+  frmCadUsuario.Edit1.Text := DBGrid1.Fields[0].AsString;
+  frmCadUsuario.Edit2.Text := DBGrid1.Fields[2].AsString;
+  frmCadUsuario.Edit3.Text := DBGrid1.Fields[3].AsString;
+  frmCadUsuario.Edit4.Text := DBGrid1.Fields[4].AsString;
+  frmCadUsuario.Edit5.Text := DBGrid1.Fields[5].AsString;
+  frmCadUsuario.Edit6.Text := DBGrid1.Fields[11].AsString;
+  frmCadUsuario.Edit7.Text := DBGrid1.Fields[12].AsString;
+  frmCadUsuario.Edit8.Text := DBGrid1.Fields[9].AsString;
+  frmCadUsuario.MaskEdit1.Text := DBGrid1.Fields[1].AsString;
+  frmCadUsuario.MaskEdit2.Text := DBGrid1.Fields[8].AsString;
+  frmCadUsuario.MaskEdit3.Text := DBGrid1.Fields[6].AsString;
+  frmCadUsuario.MaskEdit4.Text := DBGrid1.Fields[10].AsString;
+  temp := DBGrid1.Fields[7].AsString;
+  case AnsiIndexStr(temp, ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS',
+        'MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO']) of
+
+    0 : frmCadUsuario.ComboBox1.ItemIndex := 0;
+    1 : frmCadUsuario.ComboBox1.ItemIndex := 1;
+    2 : frmCadUsuario.ComboBox1.ItemIndex := 2;
+    3 : frmCadUsuario.ComboBox1.ItemIndex := 3;
+    4 : frmCadUsuario.ComboBox1.ItemIndex := 4;
+    5 : frmCadUsuario.ComboBox1.ItemIndex := 5;
+    6 : frmCadUsuario.ComboBox1.ItemIndex := 6;
+    7 : frmCadUsuario.ComboBox1.ItemIndex := 7;
+    8 : frmCadUsuario.ComboBox1.ItemIndex := 8;
+    9 : frmCadUsuario.ComboBox1.ItemIndex := 9;
+    10 : frmCadUsuario.ComboBox1.ItemIndex := 10;
+    11 : frmCadUsuario.ComboBox1.ItemIndex := 11;
+    12 : frmCadUsuario.ComboBox1.ItemIndex := 12;
+    13 : frmCadUsuario.ComboBox1.ItemIndex := 13;
+    14 : frmCadUsuario.ComboBox1.ItemIndex := 14;
+    15 : frmCadUsuario.ComboBox1.ItemIndex := 15;
+    16 : frmCadUsuario.ComboBox1.ItemIndex := 16;
+    17 : frmCadUsuario.ComboBox1.ItemIndex := 17;
+    18 : frmCadUsuario.ComboBox1.ItemIndex := 18;
+    19 : frmCadUsuario.ComboBox1.ItemIndex := 19;
+    20 : frmCadUsuario.ComboBox1.ItemIndex := 20;
+    21 : frmCadUsuario.ComboBox1.ItemIndex := 21;
+    22 : frmCadUsuario.ComboBox1.ItemIndex := 22;
+    23 : frmCadUsuario.ComboBox1.ItemIndex := 23;
+    24 : frmCadUsuario.ComboBox1.ItemIndex := 24;
+    25 : frmCadUsuario.ComboBox1.ItemIndex := 25;
+    26 : frmCadUsuario.ComboBox1.ItemIndex := 26;
+
+  end;
+
+
+  frmCadUsuario.btnNovo.Enabled := True;
+  frmCadUsuario.btnEditar.Enabled := true;
+  frmCadUsuario.btnExcluir.Enabled := False;
+  frmCadUsuario.btnSalvar.Enabled := False;
+  frmCadUsuario.btnCancelar.Enabled := False;
+  frmCadUsuario.btnSair.Enabled := True;
+  frmCadUsuario.btnPesquisar.Enabled := True;
+
+  frmPesqUsuario.Close;
+end;
+
+end.

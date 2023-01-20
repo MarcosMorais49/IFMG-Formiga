@@ -1,0 +1,569 @@
+object frmDM: TfrmDM
+  OldCreateOrder = False
+  Height = 545
+  Width = 756
+  object ADOConnectionPadaria: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=MSDASQL.1;Password=root;Persist Security Info=True;User' +
+      ' ID=root;Data Source=padaria'
+    LoginPrompt = False
+    Left = 48
+    Top = 24
+  end
+  object tabUsuario: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'usuario'
+    Left = 184
+    Top = 8
+  end
+  object tabFornecedor: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'fornecedor'
+    Left = 184
+    Top = 56
+  end
+  object tabCliente: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'cliente'
+    Left = 184
+    Top = 488
+    object tabClientecliCodigo: TAutoIncField
+      FieldName = 'cliCodigo'
+      ReadOnly = True
+    end
+    object tabClientecliNome: TStringField
+      FieldName = 'cliNome'
+      Size = 45
+    end
+    object tabClientecliEndereco: TStringField
+      FieldName = 'cliEndereco'
+      Size = 45
+    end
+    object tabClientecliBairro: TStringField
+      FieldName = 'cliBairro'
+      Size = 45
+    end
+    object tabClientecliCidade: TStringField
+      FieldName = 'cliCidade'
+      Size = 45
+    end
+    object tabClientecliCep: TStringField
+      FieldName = 'cliCep'
+      Size = 10
+    end
+    object tabClientecliEstado: TStringField
+      FieldName = 'cliEstado'
+      Size = 2
+    end
+    object tabClientecliCpf: TStringField
+      FieldName = 'cliCpf'
+      Size = 18
+    end
+    object tabClientecliRg: TStringField
+      FieldName = 'cliRg'
+      Size = 11
+    end
+    object tabClientecliEmail: TStringField
+      FieldName = 'cliEmail'
+      Size = 45
+    end
+    object tabClientecliTelefone: TStringField
+      FieldName = 'cliTelefone'
+      Size = 13
+    end
+    object tabClientecliTipo: TSmallintField
+      FieldName = 'cliTipo'
+    end
+  end
+  object tabProduto: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'produto'
+    Left = 184
+    Top = 348
+  end
+  object tabReceita: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'receita'
+    Left = 184
+    Top = 296
+    object tabReceitarecCodigo: TAutoIncField
+      FieldName = 'recCodigo'
+      ReadOnly = True
+    end
+    object tabReceitaProduto_proCodigo: TIntegerField
+      FieldName = 'Produto_proCodigo'
+    end
+    object tabReceitaproDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'proDescricao'
+      LookupDataSet = tabProduto
+      LookupKeyFields = 'proCodigo'
+      LookupResultField = 'proDescricao'
+      KeyFields = 'Produto_proCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object tabMp: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'matprima'
+    Left = 184
+    Top = 200
+    object tabMpmpCodigo: TAutoIncField
+      FieldName = 'mpCodigo'
+      ReadOnly = True
+    end
+    object tabMpmpDescricao: TStringField
+      FieldName = 'mpDescricao'
+      Size = 45
+    end
+    object tabMpmpPCusto: TFloatField
+      FieldName = 'mpPCusto'
+    end
+    object tabMpmpEstoque: TFloatField
+      FieldName = 'mpEstoque'
+    end
+    object tabMpmpEstMinimo: TFloatField
+      FieldName = 'mpEstMinimo'
+    end
+    object tabMpmp_undCodigo: TIntegerField
+      FieldName = 'mp_undCodigo'
+    end
+  end
+  object tabEntrada: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'entrada'
+    Left = 184
+    Top = 104
+    object tabEntradaentControle: TAutoIncField
+      FieldName = 'entControle'
+      ReadOnly = True
+    end
+    object tabEntradaFornecedor_forCodigo: TIntegerField
+      FieldName = 'Fornecedor_forCodigo'
+    end
+    object tabEntradaentNumero: TIntegerField
+      FieldName = 'entNumero'
+    end
+    object tabEntradaentSerie: TStringField
+      FieldName = 'entSerie'
+      Size = 3
+    end
+    object tabEntradaentEmissao: TDateField
+      FieldName = 'entEmissao'
+    end
+    object tabEntradaentEntrada: TDateField
+      FieldName = 'entEntrada'
+    end
+    object tabEntradaentTotal: TFloatField
+      FieldName = 'entTotal'
+    end
+    object tabEntradaentBaseIcms: TFloatField
+      FieldName = 'entBaseIcms'
+    end
+    object tabEntradaentValorIcms: TFloatField
+      FieldName = 'entValorIcms'
+    end
+    object tabEntradaentBaseSt: TFloatField
+      FieldName = 'entBaseSt'
+    end
+    object tabEntradaentValorSt: TFloatField
+      FieldName = 'entValorSt'
+    end
+    object tabEntradaentIpi: TFloatField
+      FieldName = 'entIpi'
+    end
+    object tabEntradaentDesconto: TFloatField
+      FieldName = 'entDesconto'
+    end
+    object tabEntradaentDespesa: TFloatField
+      FieldName = 'entDespesa'
+    end
+    object tabEntradaentLiquido: TFloatField
+      FieldName = 'entLiquido'
+    end
+    object tabEntradaForNome: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ForNome'
+      LookupDataSet = tabFornecedor
+      LookupKeyFields = 'forCodigo'
+      LookupResultField = 'forNome'
+      KeyFields = 'Fornecedor_forCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object tabEntrada_mp: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'entrada_matprima'
+    Left = 184
+    Top = 152
+    object tabEntrada_mpent_mpControle: TAutoIncField
+      FieldName = 'ent_mpControle'
+      ReadOnly = True
+    end
+    object tabEntrada_mpMatPrima_mpCodigo: TIntegerField
+      FieldName = 'MatPrima_mpCodigo'
+    end
+    object tabEntrada_mpmp_nfQtde: TFloatField
+      FieldName = 'mp_nfQtde'
+    end
+    object tabEntrada_mpEntrada_entControle: TIntegerField
+      FieldName = 'Entrada_entControle'
+    end
+  end
+  object tabMpReceita: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'matprima_receita'
+    Left = 184
+    Top = 248
+    object tabMpReceitaMatPrima_mpCodigo: TIntegerField
+      FieldName = 'MatPrima_mpCodigo'
+    end
+    object tabMpReceitaReceita_recCodigo: TIntegerField
+      FieldName = 'Receita_recCodigo'
+    end
+    object tabMpReceitamp_recControle: TAutoIncField
+      FieldName = 'mp_recControle'
+      ReadOnly = True
+    end
+    object tabMpReceitamp_recQtde: TFloatField
+      FieldName = 'mp_recQtde'
+    end
+    object tabMpReceitampDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'mpDescricao'
+      LookupDataSet = tabMp
+      LookupKeyFields = 'mpCodigo'
+      LookupResultField = 'mpDescricao'
+      KeyFields = 'MatPrima_mpCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object tabItemVenda: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'item_venda'
+    Left = 184
+    Top = 392
+  end
+  object tabVenda: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'venda'
+    Left = 184
+    Top = 440
+  end
+  object Consultas: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from usuario')
+    Left = 320
+    Top = 336
+  end
+  object tabProducao: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'producao'
+    Left = 274
+    Top = 56
+    object tabProducaopdcCodigo: TAutoIncField
+      FieldName = 'pdcCodigo'
+      ReadOnly = True
+    end
+    object tabProducaopdc_codReceita: TIntegerField
+      FieldName = 'pdc_codReceita'
+    end
+    object tabProducaopdcUsuario: TStringField
+      FieldName = 'pdcUsuario'
+      Size = 45
+    end
+    object tabProducaopdcData: TDateField
+      FieldName = 'pdcData'
+    end
+    object tabProducaopdcStatus: TStringField
+      FieldName = 'pdcStatus'
+      Size = 4
+    end
+    object tabProducaopdcQtde: TIntegerField
+      FieldName = 'pdcQtde'
+    end
+    object tabProducaoReceita_pdcCodProduto: TIntegerField
+      FieldKind = fkLookup
+      FieldName = 'Receita_pdcCodProduto'
+      LookupDataSet = tabReceita
+      LookupKeyFields = 'recCodigo'
+      LookupResultField = 'Produto_proCodigo'
+      KeyFields = 'pdc_codReceita'
+      Lookup = True
+    end
+    object tabProducaoProDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ProDescricao'
+      LookupDataSet = tabProduto
+      LookupKeyFields = 'proCodigo'
+      LookupResultField = 'proDescricao'
+      KeyFields = 'Receita_pdcCodProduto'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object tabUnidade: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'unidade'
+    Left = 274
+    Top = 8
+    object tabUnidadeundCodigo: TAutoIncField
+      FieldName = 'undCodigo'
+      ReadOnly = True
+    end
+    object tabUnidadeundDescricao: TStringField
+      FieldName = 'undDescricao'
+      Size = 45
+    end
+  end
+  object tabItemProducao: TADOTable
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    TableName = 'itens_producao'
+    Left = 272
+    Top = 113
+  end
+  object qryItemProducao: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from itens_Producao')
+    Left = 504
+    Top = 120
+    object qryItemProducaoitPdcCodigo: TAutoIncField
+      FieldName = 'itPdcCodigo'
+      ReadOnly = True
+    end
+    object qryItemProducaoitPdc_mpCodigo: TIntegerField
+      FieldName = 'itPdc_mpCodigo'
+    end
+    object qryItemProducaoitPdcQtdePrevista: TFloatField
+      FieldName = 'itPdcQtdePrevista'
+    end
+    object qryItemProducaoitPdcQtdeUsada: TFloatField
+      FieldName = 'itPdcQtdeUsada'
+    end
+    object qryItemProducaoitPdc_pdcCodigo: TIntegerField
+      FieldName = 'itPdc_pdcCodigo'
+    end
+    object qryItemProducaompDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'mpDescricao'
+      LookupDataSet = tabMp
+      LookupKeyFields = 'mpCodigo'
+      LookupResultField = 'mpDescricao'
+      KeyFields = 'itPdc_mpCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object qryProducao: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from Producao where pdcCodigo = '#39'18'#39)
+    Left = 504
+    Top = 64
+    object qryProducaoReceita_pdcCodProduto: TIntegerField
+      FieldKind = fkLookup
+      FieldName = 'Receita_pdcCodProduto'
+      LookupDataSet = tabReceita
+      LookupKeyFields = 'recCodigo'
+      LookupResultField = 'Produto_proCodigo'
+      KeyFields = 'pdc_codReceita'
+      Lookup = True
+    end
+    object qryProducaoProDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ProDescricao'
+      LookupDataSet = tabProduto
+      LookupKeyFields = 'proCodigo'
+      LookupResultField = 'proDescricao'
+      KeyFields = 'Receita_pdcCodProduto'
+      Size = 45
+      Lookup = True
+    end
+    object qryProducaopdcCodigo: TAutoIncField
+      FieldName = 'pdcCodigo'
+      ReadOnly = True
+    end
+    object qryProducaopdc_codReceita: TIntegerField
+      FieldName = 'pdc_codReceita'
+    end
+    object qryProducaopdcUsuario: TStringField
+      FieldName = 'pdcUsuario'
+      Size = 45
+    end
+    object qryProducaopdcData: TDateField
+      FieldName = 'pdcData'
+    end
+    object qryProducaopdcStatus: TStringField
+      FieldName = 'pdcStatus'
+    end
+    object qryProducaopdcQtde: TIntegerField
+      FieldName = 'pdcQtde'
+    end
+  end
+  object qryProduto: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from Produto')
+    Left = 432
+    Top = 352
+  end
+  object qryReceita: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from Receita')
+    Left = 432
+    Top = 296
+    object qryReceitarecCodigo: TAutoIncField
+      FieldName = 'recCodigo'
+      ReadOnly = True
+    end
+    object qryReceitaProduto_proCodigo: TIntegerField
+      FieldName = 'Produto_proCodigo'
+    end
+    object qryReceitaProDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'ProDescricao'
+      LookupDataSet = tabProduto
+      LookupKeyFields = 'proCodigo'
+      LookupResultField = 'proDescricao'
+      KeyFields = 'Produto_proCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object qryMpReceita: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from matPrima_receita')
+    Left = 432
+    Top = 250
+    object qryMpReceitaMatPrima_mpCodigo: TIntegerField
+      FieldName = 'MatPrima_mpCodigo'
+    end
+    object qryMpReceitaReceita_recCodigo: TIntegerField
+      FieldName = 'Receita_recCodigo'
+    end
+    object qryMpReceitamp_recControle: TAutoIncField
+      FieldName = 'mp_recControle'
+      ReadOnly = True
+    end
+    object qryMpReceitamp_recQtde: TFloatField
+      FieldName = 'mp_recQtde'
+    end
+    object qryMpReceitampDescricao: TStringField
+      FieldKind = fkLookup
+      FieldName = 'mpDescricao'
+      LookupDataSet = tabMp
+      LookupKeyFields = 'mpCodigo'
+      LookupResultField = 'mpDescricao'
+      KeyFields = 'MatPrima_mpCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object qryMp: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from matPrima')
+    Left = 432
+    Top = 200
+  end
+  object qryVenda: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from venda')
+    Left = 432
+    Top = 445
+    object qryVendavenCodigo: TAutoIncField
+      FieldName = 'venCodigo'
+      ReadOnly = True
+    end
+    object qryVendaCliente_cliCodigo: TIntegerField
+      FieldName = 'Cliente_cliCodigo'
+    end
+    object qryVendavenData: TDateTimeField
+      FieldName = 'venData'
+    end
+    object qryVendavenTotal: TFloatField
+      FieldName = 'venTotal'
+    end
+    object qryVendacliNome: TStringField
+      FieldKind = fkLookup
+      FieldName = 'cliNome'
+      LookupDataSet = tabCliente
+      LookupKeyFields = 'cliCodigo'
+      LookupResultField = 'cliNome'
+      KeyFields = 'Cliente_cliCodigo'
+      Size = 45
+      Lookup = True
+    end
+  end
+  object qryItemVenda: TADOQuery
+    Active = True
+    Connection = ADOConnectionPadaria
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'select * from item_venda')
+    Left = 432
+    Top = 397
+  end
+end

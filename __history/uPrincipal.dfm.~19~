@@ -1,0 +1,141 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 195
+  Top = 0
+  Caption = 'SIGPAD - Sistema de Gerenciamento de Produ'#231#245'es'
+  ClientHeight = 692
+  ClientWidth = 1366
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  Position = poDesigned
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 19
+  object TreeView1: TTreeView
+    Left = -8
+    Top = 24
+    Width = 311
+    Height = 649
+    BorderWidth = 5
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Indent = 19
+    ParentFont = False
+    TabOrder = 0
+    Items.NodeData = {
+      03050000002E0000000000000000000000FFFFFFFFFFFFFFFF00000000000000
+      0003000000010843006100640061007300740072006F002E0000000000000001
+      000000FFFFFFFFFFFFFFFF0000000000000000000000000108550073007500E1
+      00720069006F0073002E0000000000000002000000FFFFFFFFFFFFFFFF000000
+      000000000000000000010843006C00690065006E007400650073003600000000
+      00000003000000FFFFFFFFFFFFFFFF000000000000000000000000010C46006F
+      0072006E0065006300650064006F007200650073003400000000000000000000
+      00FFFFFFFFFFFFFFFF000000000000000001000000010B520065006300650062
+      0069006D0065006E0074006F00440000000000000004000000FFFFFFFFFFFFFF
+      FF000000000000000000000000011345006E007400720061006400610020004E
+      006F00740061002000460069007300630061006C002E00000000000000000000
+      00FFFFFFFFFFFFFFFF0000000000000000020000000108500072006F00640075
+      00E700E3006F00380000000000000005000000FFFFFFFFFFFFFFFF0000000000
+      00000000000000010D4300720069006100720020005200650063006500690074
+      006100400000000000000006000000FFFFFFFFFFFFFFFF000000000000000000
+      00000001114F007200640065006D002000640065002000500072006F00640075
+      00E700E3006F00280000000000000000000000FFFFFFFFFFFFFFFF0000000000
+      000000010000000105560065006E00640061003C0000000000000007000000FF
+      FFFFFFFFFFFFFF000000000000000000000000010F5200650061006C0069007A
+      00610072002000560065006E00640061007300300000000000000000000000FF
+      FFFFFFFFFFFFFF0000000000000000000000000109520065006C0061007400F3
+      00720069006F00}
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 1369
+    Height = 25
+    ParentBackground = False
+    TabOrder = 1
+  end
+  object Panel2: TPanel
+    Left = 303
+    Top = 24
+    Width = 1066
+    Height = 649
+    Align = alCustom
+    TabOrder = 2
+  end
+  object MainMenu1: TMainMenu
+    Left = 536
+    Top = 112
+    object c1: TMenuItem
+      Caption = 'Cadastro'
+      object Usurios1: TMenuItem
+        Caption = 'Usu'#225'rios'
+        OnClick = Usurios1Click
+      end
+      object Clientes1: TMenuItem
+        Caption = 'Clientes'
+        OnClick = Clientes1Click
+      end
+      object Fornecedores1: TMenuItem
+        Caption = 'Fornecedores'
+        OnClick = Fornecedores1Click
+      end
+      object Produtos1: TMenuItem
+        Caption = 'Produtos'
+        OnClick = Produtos1Click
+      end
+      object MatriaPrima1: TMenuItem
+        Caption = 'Materia Prima'
+        OnClick = MatriaPrima1Click
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object Sair1: TMenuItem
+        Caption = 'Param. Unidade'
+        OnClick = Sair1Click
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object Sair2: TMenuItem
+        Caption = 'Sair'
+      end
+    end
+    object Recebimento1: TMenuItem
+      Caption = 'Recebimento'
+      object EntradaNotaFiscal1: TMenuItem
+        Caption = 'Entrada Nota Fiscal'
+        OnClick = EntradaNotaFiscal1Click
+      end
+    end
+    object Receita1: TMenuItem
+      Caption = 'Produ'#231#227'o'
+      object CadastrarReceita1: TMenuItem
+        Caption = 'Criar Receita'
+        OnClick = CadastrarReceita1Click
+      end
+      object OrdemdeProduo1: TMenuItem
+        Caption = 'Ordem de Produ'#231#227'o'
+        OnClick = OrdemdeProduo1Click
+      end
+    end
+    object Relatrio1: TMenuItem
+      Caption = 'Venda'
+      object RealizarVendas1: TMenuItem
+        Caption = 'Realizar Vendas'
+        OnClick = RealizarVendas1Click
+      end
+    end
+    object Relatrio2: TMenuItem
+      Caption = 'Relat'#243'rio'
+    end
+  end
+end

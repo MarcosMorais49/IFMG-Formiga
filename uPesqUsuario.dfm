@@ -1,0 +1,164 @@
+object frmPesqUsuario: TfrmPesqUsuario
+  Left = 0
+  Top = 0
+  Caption = 'Pesquisar Usu'#225'rios'
+  ClientHeight = 535
+  ClientWidth = 784
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 83
+    Width = 784
+    Height = 452
+    Align = alClient
+    DataSource = dsUsuario
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ParentFont = False
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = [fsBold]
+    OnDblClick = DBGrid1DblClick
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'usuCodigo'
+        Title.Caption = 'C'#243'digo'
+        Width = 55
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'usuNome'
+        Title.Caption = 'Usu'#225'rio'
+        Width = 205
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'usuCpf'
+        Title.Caption = 'CPF'
+        Width = 118
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'usuEndereco'
+        Title.Caption = 'Endere'#231'o'
+        Width = 227
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'usuBairro'
+        Title.Caption = 'Bairro'
+        Width = 142
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'usuCidade'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuCep'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuEstado'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuRg'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuEmail'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuTelefone'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuLogin'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuSenha'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'usuPermissao'
+        Visible = False
+      end>
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 784
+    Height = 83
+    Align = alTop
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    object Label2: TLabel
+      Left = 16
+      Top = 24
+      Width = 48
+      Height = 19
+      Caption = 'Nome:'
+    end
+    object Edit1: TEdit
+      Left = 80
+      Top = 21
+      Width = 409
+      Height = 27
+      TabOrder = 0
+    end
+    object Button1: TButton
+      Left = 519
+      Top = 19
+      Width = 97
+      Height = 31
+      Caption = '&Pesquisar'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+  end
+  object dsUsuario: TDataSource
+    DataSet = frmDM.tabUsuario
+    Left = 384
+    Top = 272
+  end
+end

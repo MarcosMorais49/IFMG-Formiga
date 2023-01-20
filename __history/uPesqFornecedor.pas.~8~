@@ -1,0 +1,102 @@
+unit uPesqFornecedor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, uDM, Data.DB, strUtils;
+
+type
+  TfrmPesqFornecedor = class(TForm)
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    dsFornecedor: TDataSource;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPesqFornecedor: TfrmPesqFornecedor;
+
+implementation
+
+uses uCadFornecedor;
+
+{$R *.dfm}
+
+procedure TfrmPesqFornecedor.Button1Click(Sender: TObject);
+begin
+  if Edit1.Text <> '' then
+  begin
+    frmDM.tabFornecedor.Filtered := false;
+    frmDM.tabFornecedor.Filter := 'forNome like '+QuotedStr(Edit1.Text+'%');
+    frmDM.tabFornecedor.Filtered := true;
+  end
+  else
+  begin
+    frmDM.tabFornecedor.Filtered := false;
+    frmDM.tabFornecedor.Filter := '';
+    frmDM.tabFornecedor.Filtered := true;
+  end
+end;
+
+procedure TfrmPesqFornecedor.DBGrid1DblClick(Sender: TObject);
+var temp : string;
+begin
+  frmCadFornecedor.Edit1.Text :=  DBGrid1.Fields[0].AsString;
+  frmCadFornecedor.Edit2.Text :=  DBGrid1.Fields[2].AsString;
+  frmCadFornecedor.Edit3.Text :=  DBGrid1.Fields[3].AsString;
+  frmCadFornecedor.Edit4.Text :=  DBGrid1.Fields[4].AsString;
+  frmCadFornecedor.Edit5.Text :=  DBGrid1.Fields[5].AsString;
+  frmCadFornecedor.Edit6.Text :=  DBGrid1.Fields[10].AsString;
+  frmCadFornecedor.MaskEdit1.Text :=  DBGrid1.Fields[1].AsString;
+  frmCadFornecedor.MaskEdit2.Text :=  DBGrid1.Fields[9].AsString;
+  frmCadFornecedor.MaskEdit3.Text :=  DBGrid1.Fields[8].AsString;
+  frmCadFornecedor.MaskEdit4.Text :=  DBGrid1.Fields[7].AsString;
+  frmCadFornecedor.ComboBox1.Text :=  DBGrid1.Fields[6].AsString;
+  temp := DBGrid1.Fields[6].AsString;
+  case AnsiIndexStr(temp, ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS',
+        'MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO']) of
+
+    0 : frmCadFornecedor.ComboBox1.ItemIndex := 0;
+    1 : frmCadFornecedor.ComboBox1.ItemIndex := 1;
+    2 : frmCadFornecedor.ComboBox1.ItemIndex := 2;
+    3 : frmCadFornecedor.ComboBox1.ItemIndex := 3;
+    4 : frmCadFornecedor.ComboBox1.ItemIndex := 4;
+    5 : frmCadFornecedor.ComboBox1.ItemIndex := 5;
+    6 : frmCadFornecedor.ComboBox1.ItemIndex := 6;
+    7 : frmCadFornecedor.ComboBox1.ItemIndex := 7;
+    8 : frmCadFornecedor.ComboBox1.ItemIndex := 8;
+    9 : frmCadFornecedor.ComboBox1.ItemIndex := 9;
+    10 : frmCadFornecedor.ComboBox1.ItemIndex := 10;
+    11 : frmCadFornecedor.ComboBox1.ItemIndex := 11;
+    12 : frmCadFornecedor.ComboBox1.ItemIndex := 12;
+    13 : frmCadFornecedor.ComboBox1.ItemIndex := 13;
+    14 : frmCadFornecedor.ComboBox1.ItemIndex := 14;
+    15 : frmCadFornecedor.ComboBox1.ItemIndex := 15;
+    16 : frmCadFornecedor.ComboBox1.ItemIndex := 16;
+    17 : frmCadFornecedor.ComboBox1.ItemIndex := 17;
+    18 : frmCadFornecedor.ComboBox1.ItemIndex := 18;
+    19 : frmCadFornecedor.ComboBox1.ItemIndex := 19;
+    20 : frmCadFornecedor.ComboBox1.ItemIndex := 20;
+    21 : frmCadFornecedor.ComboBox1.ItemIndex := 21;
+    22 : frmCadFornecedor.ComboBox1.ItemIndex := 22;
+    23 : frmCadFornecedor.ComboBox1.ItemIndex := 23;
+    24 : frmCadFornecedor.ComboBox1.ItemIndex := 24;
+    25 : frmCadFornecedor.ComboBox1.ItemIndex := 25;
+    26 : frmCadFornecedor.ComboBox1.ItemIndex := 26;
+
+  end;
+
+  frmPesqFornecedor.Close;
+end;
+
+end.
